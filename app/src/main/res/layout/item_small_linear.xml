@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.movie.Movie" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/item_small_linear_release_image"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:loadSmallGridImage="@{data.backDropPath}"
+                app:srcCompat="@drawable/ic_menu_camera" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/item_new_release_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.title}"
+            android:maxLines="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            style="@style/Theme.Text.CardTitleTextAppearance"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/item_new_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.releaseDate}"
+            android:maxLines="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            style="@style/Theme.Text.CardSubtitleTextAppearance"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_baseline_star_rate"/>
+
+            <TextView
+                android:id="@+id/item_new_release_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{data.voteAverage.toString()}"
+                style="@style/Theme.Text.CardSubtitleTextAppearance"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

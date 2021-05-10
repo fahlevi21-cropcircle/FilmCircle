@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.movie.Movie" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="20dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:loadMediumImage="@{data.backDropPath == null ? data.posterPath : data.backDropPath}"
+                    android:id="@+id/item_card_image"
+                    android:layout_width="match_parent"
+                    android:scaleType="fitXY"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/item_card_fade_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fade_background" />
+
+                <TextView
+                    android:id="@+id/item_card_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.title}"
+                    android:gravity="center"
+                    android:layout_gravity="bottom|center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:layout_marginBottom="8dp"
+                    style="@style/Theme.Text.CardTitleTextAppearance" />
+
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+</layout>
