@@ -86,9 +86,9 @@ public class HomeFragment extends Fragment {
         }
 
         PreferenceManager manager = new PreferenceManager(getContext());
-        if(manager != null && manager.getUserdata() != null){
-            String mahtek = manager.getSessionId() + "and id = " + manager.getUserdata().getId();
-            binding.layoutDiscover.sessionIdDummy.setText(mahtek);
+        if(manager.getUserdata() != null){
+            String sessionId = manager.getSessionId() + "and id = " + manager.getUserdata().getId();
+            binding.layoutDiscover.sessionIdDummy.setText(sessionId);
         }
         binding.layoutDiscover.sessionIdDummy.setVisibility(View.GONE);
     }

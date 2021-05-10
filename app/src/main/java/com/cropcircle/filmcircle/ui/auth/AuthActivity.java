@@ -65,6 +65,12 @@ public class AuthActivity extends AppCompatActivity {
         binding.loginRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.loginRc.addItemDecoration(new HorizontalItemDecoration(8, 8, 8, 8, 32));
         binding.loginRc.setHasFixedSize(true);
+        binding.loginGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AuthActivity.this, "Implemented soon!", Toast.LENGTH_SHORT).show();
+            }
+        });
         MovieAdapter adapter = new MovieAdapter(R.layout.item_image_small);
         binding.loginRc.setAdapter(adapter);
 
@@ -163,7 +169,7 @@ public class AuthActivity extends AppCompatActivity {
             viewModel.getSessionId().observe(this, new Observer<SessionId>() {
                 @Override
                 public void onChanged(SessionId sessionId) {
-                    if (sessionId != null && sessionId.getSessionId() != null){
+                    if (sessionId.getSessionId() != null){
                         PreferenceManager manager = new PreferenceManager(AuthActivity.this);
                         viewModel.getUserDetails(sessionId.getSessionId(), new OnUserDetailsResponse() {
                             @Override
