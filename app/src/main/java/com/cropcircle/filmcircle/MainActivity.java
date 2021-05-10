@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 name.setText(user.getName());
                 String imageUrl = Constants.IMG_PROFILE_180 + user.getAvatar().getTmdb().getAvatarPath();
                 Glide.with(headerView).load(imageUrl).into(profileImage);
-                Toast.makeText(this, "user : " + user.getName(), Toast.LENGTH_SHORT).show();
             }
 
             logoutBtn.setOnClickListener(new View.OnClickListener() {
