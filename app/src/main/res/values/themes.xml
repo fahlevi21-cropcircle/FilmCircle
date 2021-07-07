@@ -20,8 +20,8 @@
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxStrokeColor">@color/primaryLightColor</item>
-        <item name="hintTextColor">@color/secondaryColor</item>
+        <item name="boxStrokeColor">@color/primaryColor</item>
+        <item name="hintTextColor">@color/primaryColor</item>
     </style>
 
     <style name="Theme.FilmCircle.NoActionBar">
@@ -41,6 +41,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/rubik</item>
+    </style>
+
+    <style name="Theme.Text.ToolbarTitleTextAppearance" parent="">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Theme.Text.CardSubtitleTextAppearance" parent="">

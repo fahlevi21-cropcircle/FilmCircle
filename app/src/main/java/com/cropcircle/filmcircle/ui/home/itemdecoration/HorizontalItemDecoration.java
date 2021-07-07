@@ -32,9 +32,9 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
         outRect.bottom = bottomSize;
 
         if (parent.getChildAdapterPosition(view) == 0 && paddingSize == 16) {
-            outRect.left = 32;
+            outRect.left = 46;
         } else if (parent.getChildAdapterPosition(view) == 0 && paddingSize == 32) {
-            outRect.left = 64;
+            outRect.left = 82;
         }
     }
 }

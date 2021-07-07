@@ -1,4 +1,4 @@
-package com.cropcircle.filmcircle.ui.gallery;
+package com.cropcircle.filmcircle.ui.actors;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.cropcircle.filmcircle.R;
-import com.cropcircle.filmcircle.databinding.FragmentGalleryBinding;
 
 public class GalleryFragment extends Fragment {
 

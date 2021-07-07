@@ -34,6 +34,10 @@ public class VideoAdapter extends BaseQuickAdapter<Video, BaseDataBindingHolder>
             ItemVideoLinearBinding binding = (ItemVideoLinearBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(video);
             binding.executePendingBindings();
+        }else if (viewType == R.layout.item_video_large){
+            ItemVideoLargeBinding binding = (ItemVideoLargeBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(video);
+            binding.executePendingBindings();
         }
     }
 }

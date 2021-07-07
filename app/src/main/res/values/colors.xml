@@ -9,4 +9,6 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
     <color name="grayBackroundColor">#28D4D4D4</color>
+    <color name="containerBackground">#ECEBEB</color>
+    <color name="yellowColor">#FFEB3B</color>
 </resources>

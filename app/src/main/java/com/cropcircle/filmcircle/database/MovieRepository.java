@@ -22,12 +22,11 @@ import com.cropcircle.filmcircle.models.movie.MovieDetails;
 import com.cropcircle.filmcircle.models.movie.MovieVideos;
 import com.cropcircle.filmcircle.models.movie.Movies;
 import com.cropcircle.filmcircle.models.movie.Video;
-import com.cropcircle.filmcircle.models.review.Review;
-import com.cropcircle.filmcircle.models.review.Reviews;
+import com.cropcircle.filmcircle.models.tv.MediaTV;
+import com.cropcircle.filmcircle.models.tv.ResultTV;
 import com.cropcircle.filmcircle.models.user.OnUserDetailsResponse;
 import com.cropcircle.filmcircle.models.user.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class MovieRepository {
 
     public LiveData<List<Movie>> discoverNewRelease() {
         final String TAG = "New Release Movies";
-        Call<Movies> call = service.latestMovie();
+        Call<Movies> call = service.upcomingMovies();
 
         MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
 
@@ -129,9 +128,9 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
-    public LiveData<List<Result>> weeklyTrendingAllMedia() {
+    public LiveData<List<Result>> dailyTrendingAllMedia() {
         final String TAG = "Trending All";
-        Call<MediaResponse> call = service.trending("all", "week");
+        Call<MediaResponse> call = service.trending("all", "day");
 
         MutableLiveData<List<Result>> mutableLiveData = new MutableLiveData<>();
 
@@ -393,32 +392,6 @@ public class MovieRepository {
 
             @Override
             public void onFailure(Call<Movies> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-                mutableLiveData.setValue(null);
-            }
-        });
-
-        return mutableLiveData;
-    }
-
-    public LiveData<List<Review>> getReviews(int movieId) {
-        final String TAG = "Review Movie";
-        Call<Reviews> call = service.movieReviews(movieId);
-        MutableLiveData<List<Review>> mutableLiveData = new MutableLiveData<>();
-
-        call.enqueue(new Callback<Reviews>() {
-            @Override
-            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
-                Log.d(TAG, "onResponse: " + response.body());
-                if (response.isSuccessful()) {
-                    mutableLiveData.setValue(response.body().getResults());
-                } else {
-                    mutableLiveData.setValue(null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Reviews> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 mutableLiveData.setValue(null);
             }

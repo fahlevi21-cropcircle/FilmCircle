@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.movie.Movie" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="74dp"
+                android:layout_height="match_parent"
+                app:riv_corner_radius="8dp"
+                android:scaleType="fitXY"
+                android:loadMediumImage="@{data.posterPath == null ? data.backDropPath : data.posterPath}"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/item_small_vertical_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{data.title == null ? data.originalTitle : data.title}"
+                    style="@style/Theme.Text.CardTitleTextAppearance"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    style="@style/Theme.Text.CardSubtitleTextAppearance"
+                    android:text="@{data.releaseDate}"/>
+
+                <uz.jamshid.library.ExactRatingBar
+                    android:id="@+id/item_small_vertical_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:starCount="5"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:starFillColor="@color/yellowColor"
+                    app:starSize="24"/>
+
+                <TextView
+                    android:id="@+id/item_small_vertical_genres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    style="@style/Theme.Text.CardSubtitleTextAppearance"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

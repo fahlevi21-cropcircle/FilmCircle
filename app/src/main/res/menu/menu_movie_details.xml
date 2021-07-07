@@ -3,8 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_add_to_favorite"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="Add to My Favorites"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add_to_watchlist"
+        android:icon="@drawable/ic__library_add_outlined"
+        android:title="Add to My Watchlist"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add_to_list"
+        android:icon="@drawable/outline_bookmark_add_24"
+        android:title="Add to My List"
+        app:showAsAction="ifRoom" />
 </menu>

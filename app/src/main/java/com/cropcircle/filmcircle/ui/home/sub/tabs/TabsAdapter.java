@@ -8,10 +8,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.cropcircle.filmcircle.Constants;
-import com.cropcircle.filmcircle.ui.gallery.GalleryFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TabsAdapter extends FragmentStateAdapter {
 

@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.cropcircle.filmcircle.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:id="@+id/nav_actors"
+        android:name="com.cropcircle.filmcircle.ui.actors.GalleryFragment"
+        android:label="Actors"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.cropcircle.filmcircle.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_collections"
+        android:name="com.cropcircle.filmcircle.ui.collection.CollectionsFragment"
+        android:label="Collections"
+        tools:layout="@layout/fragment_collections" />
 </navigation>

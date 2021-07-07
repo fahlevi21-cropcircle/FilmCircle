@@ -28,7 +28,9 @@ public class AllMediaAdapter extends BaseQuickAdapter<Result, BaseDataBindingHol
         if (layoutType == R.layout.item_big_linear){
             ItemBigLinearBinding binding = (ItemBigLinearBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(result);
+            binding.itemTrendingVoteAvg.setStar(result.getVoteAverage().floatValue() - 5.0f);
             binding.executePendingBindings();
+
         }
     }
 }

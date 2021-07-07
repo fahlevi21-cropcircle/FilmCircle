@@ -1,5 +1,11 @@
 package com.cropcircle.filmcircle;
 
+import com.cropcircle.filmcircle.models.movie.Genre;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "?api_key=2c462f471b08742ae8128403a4dc6133";
@@ -16,19 +22,50 @@ public class Constants {
     public static final String MOVIE_ID_KEY = "com.cropcircle.filmcircle.idKey";
     public static final String VIDEO_ID_KEY = "com.cropcircle.filmcircle.videoKey";
 
-    public static String[] genres = {
-            "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary",
-            "Drama", "Family", "Fantasy", "History", "Horror", "Music",
-            "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War",
-            "Western"
-    };
+    public static List<Genre> movieGenres = new ArrayList<Genre>(
+            Arrays.asList(
+                            new Genre(28, "Action"),
+                            new Genre(12, "Adventure"),
+                            new Genre(16, "Animation"),
+                            new Genre(35, "Comedy"),
+                            new Genre(80, "Crime"),
+                            new Genre(99, "Documentary"),
+                            new Genre(18, "Drama"),
+                            new Genre(10751, "Family"),
+                            new Genre(14, "Fantasy"),
+                            new Genre(36, "History"),
+                            new Genre(27, "Horror"),
+                            new Genre(10402, "Music"),
+                            new Genre(9648, "Mystery"),
+                            new Genre(10749, "Romance"),
+                            new Genre(878, "Science Fiction"),
+                            new Genre(10770, "TV Movie"),
+                            new Genre(53, "Thriller"),
+                            new Genre(10752, "War"),
+                            new Genre(37, "Western")
+                )
+    );
 
-    public static int[] genreIds = {
-            28, 12, 16, 35, 80, 99,
-            18, 10751, 14, 36, 27, 10402,
-            9648, 10749, 878, 10770, 53, 10752,
-            37
-    };
+    public static List<Genre> tvGenres = new ArrayList<Genre>(
+            Arrays.asList(
+                    new Genre(10759, "Action & Adventure"),
+                    new Genre(16, "Animation"),
+                    new Genre(35, "Comedy"),
+                    new Genre(80, "Crime"),
+                    new Genre(99, "Documentary"),
+                    new Genre(18, "Drama"),
+                    new Genre(10751, "Family"),
+                    new Genre(10762, "Kids"),
+                    new Genre(9648, "Mystery"),
+                    new Genre(10763, "News"),
+                    new Genre(10764, "Reality"),
+                    new Genre(10765, "Sci-Fi & Fantasy"),
+                    new Genre(10766, "Soap"),
+                    new Genre(10767, "Talk"),
+                    new Genre(10768, "War & Politics"),
+                    new Genre(37, "Western")
+            )
+    );
 
 
     /*used for fastadapter livedata DiffUtil.DiffResult diffResult = FastAdapterDiffUtil.calculateDiff(newReleaseAdapter, movies);

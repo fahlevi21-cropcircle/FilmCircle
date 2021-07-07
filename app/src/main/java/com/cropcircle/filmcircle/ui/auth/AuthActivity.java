@@ -80,7 +80,7 @@ public class AuthActivity extends AppCompatActivity {
                 public void onChanged(List<Movie> movies) {
                     if (movies != null && movies.size() > 0){
                         binding.authProgressbar.setVisibility(View.GONE);
-                        adapter.setList(movies);
+                        adapter.setList(movies.subList(0,5));
                     }
                 }
             });
@@ -169,7 +169,7 @@ public class AuthActivity extends AppCompatActivity {
             viewModel.getSessionId().observe(this, new Observer<SessionId>() {
                 @Override
                 public void onChanged(SessionId sessionId) {
-                    if (sessionId.getSessionId() != null){
+                    if (sessionId != null && sessionId.getSessionId() != null){
                         PreferenceManager manager = new PreferenceManager(AuthActivity.this);
                         viewModel.getUserDetails(sessionId.getSessionId(), new OnUserDetailsResponse() {
                             @Override

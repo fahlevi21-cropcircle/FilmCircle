@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.cropcircle.filmcircle.database.MovieDetailsRepository;
 import com.cropcircle.filmcircle.database.MovieRepository;
 import com.cropcircle.filmcircle.models.action.OnAccountStatesResponse;
 import com.cropcircle.filmcircle.models.action.OnActionResponse;
@@ -13,16 +14,19 @@ import com.cropcircle.filmcircle.models.movie.Backdrop;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.models.movie.MovieDetails;
 import com.cropcircle.filmcircle.models.movie.Video;
+import com.cropcircle.filmcircle.models.people.Cast;
 import com.cropcircle.filmcircle.models.review.Review;
 
 import java.util.List;
 
 public class MovieDetailsViewModel extends ViewModel {
     private MovieRepository repository;
+    private MovieDetailsRepository movieDetailsRepository;
     private MutableLiveData<Integer> movieIdLiveData = new MutableLiveData<>();
 
     public MovieDetailsViewModel() {
         repository = new MovieRepository();
+        movieDetailsRepository = new MovieDetailsRepository();
     }
 
     public LiveData<MovieDetails> getDetails() {
@@ -46,7 +50,7 @@ public class MovieDetailsViewModel extends ViewModel {
     }
 
     public LiveData<List<Review>> getReview() {
-        return Transformations.switchMap(movieIdLiveData, id -> repository.getReviews(id));
+        return Transformations.switchMap(movieIdLiveData, id -> movieDetailsRepository.getReviews(id));
     }
 
     public void setMovieId(int id) {
@@ -58,7 +62,16 @@ public class MovieDetailsViewModel extends ViewModel {
         repository.addToFavorites(sessionId,"movie", mediaId, true, userId, onActionResponse);
     }
 
+    public void removeFromFavorites(String sessionId, Integer mediaId,
+                               @Nullable Integer userId, OnActionResponse onActionResponse){
+        repository.addToFavorites(sessionId,"movie", mediaId, false, userId, onActionResponse);
+    }
+
     public void getMovieStates(int movieId, String sessionId, OnAccountStatesResponse onAccountStatesResponse){
         repository.getAccountStates(movieId, sessionId, onAccountStatesResponse);
+    }
+
+    public LiveData<List<Cast>> getCasters(){
+        return Transformations.switchMap(movieIdLiveData, id -> movieDetailsRepository.getMovieCasters(id));
     }
 }

@@ -8,13 +8,11 @@
             type="com.cropcircle.filmcircle.models.movie.Genre" />
     </data>
 
-    <com.google.android.material.chip.Chip
+    <TextView
         android:id="@+id/item_chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{data.name}"
-        app:textStartPadding="8dp"
-        app:textEndPadding="8dp"
-        style="@style/Widget.MaterialComponents.Chip.Action"
-        android:clickable="false"/>
+        android:text="yes"
+        android:textColor="@color/primaryTextColor"
+        android:textAppearance="?attr/textAppearanceSubtitle2"/>
 </layout>

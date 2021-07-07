@@ -1,5 +1,6 @@
 package com.cropcircle.filmcircle.ui.home.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemCardBannerBinding;
 import com.cropcircle.filmcircle.databinding.ItemSliderBinding;
 import com.cropcircle.filmcircle.models.allmedia.Result;
+import com.cropcircle.filmcircle.models.movie.Genre;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.zhpan.bannerview.BaseBannerAdapter;
@@ -28,6 +30,13 @@ public class SliderAdapter extends BaseBannerAdapter<Result> {
     protected void bindData(BaseViewHolder<Result> holder, Result data, int position, int pageSize) {
         ItemSliderBinding binding = DataBindingUtil.bind(holder.itemView);
         binding.setData(data);
+        String mediaType;
+        if (data.getMediaType().contains("movie")){
+            mediaType = "Movie";
+        }else {
+            mediaType = "TV Series";
+        }
+        binding.itemSliderChipType.setText(mediaType);
         binding.executePendingBindings();
     }
 

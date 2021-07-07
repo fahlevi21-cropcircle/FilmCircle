@@ -1,4 +1,4 @@
-package com.cropcircle.filmcircle.ui.gallery;
+package com.cropcircle.filmcircle.ui.actors;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

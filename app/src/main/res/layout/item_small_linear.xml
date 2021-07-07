@@ -24,7 +24,7 @@
                 android:layout_width="150dp"
                 android:layout_height="120dp"
                 android:scaleType="centerCrop"
-                android:loadSmallGridImage="@{data.backDropPath}"
+                android:loadMediumImage="@{data.backDropPath}"
                 app:srcCompat="@drawable/ic_menu_camera" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{data.voteAverage.toString()}"
+                android:text="tes"
                 style="@style/Theme.Text.CardSubtitleTextAppearance"/>
         </LinearLayout>
 

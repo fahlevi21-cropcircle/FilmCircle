@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Result {
+public class Result implements Comparable<Result> {
 
     @SerializedName("poster_path")
     @Expose
@@ -267,5 +267,10 @@ public class Result {
 
     public void setAdult(Boolean adult) {
         this.adult = adult;
+    }
+
+    @Override
+    public int compareTo(Result result) {
+        return this.popularity.compareTo(result.popularity);
     }
 }

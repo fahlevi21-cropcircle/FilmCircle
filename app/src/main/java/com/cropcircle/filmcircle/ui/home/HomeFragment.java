@@ -2,10 +2,10 @@ package com.cropcircle.filmcircle.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -31,20 +32,20 @@ import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.FragmentHomeBinding;
 import com.cropcircle.filmcircle.models.allmedia.Result;
 import com.cropcircle.filmcircle.models.movie.Movie;
+import com.cropcircle.filmcircle.models.tv.MediaTV;
 import com.cropcircle.filmcircle.ui.home.adapter.AllMediaAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.CardSliderAdapter;
-import com.cropcircle.filmcircle.ui.home.adapter.GenreTabsAdapter;
+import com.cropcircle.filmcircle.ui.home.adapter.MediaTVAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.MovieAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.SliderAdapter;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.HorizontalItemDecoration;
+import com.cropcircle.filmcircle.ui.home.itemdecoration.VerticalItemDecoration;
+import com.cropcircle.filmcircle.ui.home.sub.MediaTVDetailsActivity;
 import com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -73,24 +74,36 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.homeToolbar);
         ((AppCompatActivity) getActivity()).setTitle(null);
 
-        if (isNetworkConnected()){
-            hideErrorPage();
-            setupSlider();
-            setupPopular();
-            setupTrendingMovie();
-            setupTrendingTV();
-            setupUpcoming();
-            setupNowPlaying();
-        }else {
-            errorShowNetworkError();
-        }
-
         PreferenceManager manager = new PreferenceManager(getContext());
         if(manager.getUserdata() != null){
             String sessionId = manager.getSessionId() + "and id = " + manager.getUserdata().getId();
             binding.layoutDiscover.sessionIdDummy.setText(sessionId);
         }
         binding.layoutDiscover.sessionIdDummy.setVisibility(View.GONE);
+        observeData();
+
+        binding.layoutEmpty.emptyRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                observeData();
+            }
+        });
+    }
+
+    private void observeData(){
+        binding.layoutEmpty.emptyRefresh.setRefreshing(false);
+        if (isNetworkConnected()){
+            hideErrorPage();
+            setupSlider();
+            setupPopularMovies();
+            setupTrendingMovie();
+            setupTrendingTV();
+            setupPopularTV();
+            setupUpcoming();
+            setupNowPlaying();
+        }else {
+            errorShowNetworkError();
+        }
     }
 
     @Override
@@ -115,12 +128,13 @@ public class HomeFragment extends Fragment {
     private void setupSlider(){
         SliderAdapter adapter = new SliderAdapter();
         binding.layoutDiscover.homeSlider.setAdapter(adapter);
-        binding.layoutDiscover.homeSlider.setOffScreenPageLimit(3);
+        binding.layoutDiscover.homeRcNowPlaying.setOffScreenPageLimit(1);
         binding.layoutDiscover.homeSlider.setIndicatorSliderGap(6);
         binding.layoutDiscover.homeSlider.setLifecycleRegistry(getLifecycle());
         homeViewModel.banners().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
             @Override
             public void onChanged(List<Result> results) {
+                Collections.sort(results);
                 binding.layoutDiscover.homeSlider.create(results.subList(0,9));
             }
         });
@@ -146,25 +160,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        trendingAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                Result data = (Result) adapter.getItem(position);
-                if (data.getMediaType().toLowerCase().contains("movie")){
-                    Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
-                    intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(getContext(), "TV Media Type", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
-
         homeViewModel.trendingMovies().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
             @Override
             public void onChanged(List<Result> movies) {
-                trendingAdapter.setList(movies);
+                if (movies != null && movies.size()> 0){
+                    binding.layoutDiscover.homeLoadingPopularMovie.setVisibility(View.GONE);
+                    Collections.sort(movies, Collections.reverseOrder());
+                    trendingAdapter.setList(movies);
+                }else{
+                    binding.layoutDiscover.homeLoadingPopularMovie.setVisibility(View.VISIBLE);
+                }
             }
         });
         binding.layoutDiscover.homeRcTrending.addItemDecoration(new HorizontalItemDecoration(12, 12, 12, 12, 16));
@@ -191,18 +196,33 @@ public class HomeFragment extends Fragment {
         homeViewModel.getNewRelease().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                newReleaseAdapter.setList(movies);
+                if(movies != null && movies.size() > 0){
+                    binding.layoutDiscover.homeLoadingUpcomingMovie.setVisibility(View.GONE);
+                    Comparator<Movie> comparator = new Comparator<Movie>() {
+                        @Override
+                        public int compare(Movie movie, Movie t1) {
+                            return movie.getReleaseDate().compareTo(t1.getReleaseDate());
+                        }
+                    };
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(movies, comparator.reversed());
+                    }
+                    newReleaseAdapter.setList(movies);
+                }else{
+                    binding.layoutDiscover.homeLoadingUpcomingMovie.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
 
-    private void setupPopular(){
+    private void setupPopularMovies(){
         //popular
-        MovieAdapter popularAdapter = new MovieAdapter(R.layout.item_small_linear);
-        binding.layoutDiscover.homeRcPopularMovie.setHasFixedSize(true);
-        binding.layoutDiscover.homeRcPopularMovie.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.layoutDiscover.homeRcPopularMovie.setAdapter(popularAdapter);
-        binding.layoutDiscover.homeRcPopularMovie.addItemDecoration(new HorizontalItemDecoration(8, 32, 8, 8, 16));
+        MovieAdapter popularAdapter = new MovieAdapter(R.layout.item_small_vertical_movie);
+        binding.layoutDiscover.homeRcPopularMovies.setHasFixedSize(true);
+        binding.layoutDiscover.homeRcPopularMovies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.layoutDiscover.homeRcPopularMovies.setAdapter(popularAdapter);
+        binding.layoutDiscover.homeRcPopularMovies.addItemDecoration(new VerticalItemDecoration(8, 8, 52, 52));
         popularAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -213,10 +233,65 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.topRatedMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+        homeViewModel.getPopularMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                popularAdapter.setList(movies);
+                if (movies != null && movies.size() > 0){
+                    /*Comparator<Movie> comparator = new Comparator<Movie>() {
+                        @Override
+                        public int compare(Movie movie, Movie t1) {
+                            return movie.getVoteAverage().compareTo(t1.getVoteAverage());
+                        }
+                    };
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(movies, comparator.reversed());
+                    }*/
+                    if (movies.size() >= 6){
+                        popularAdapter.setList(movies.subList(0,6));
+                    }else {
+                        popularAdapter.setList(movies);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setupPopularTV(){
+        MediaTVAdapter adapter = new MediaTVAdapter(R.layout.item_small_vertical_tv);
+        binding.layoutDiscover.homeRcPopularTv.setHasFixedSize(true);
+        binding.layoutDiscover.homeRcPopularTv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.layoutDiscover.homeRcPopularTv.addItemDecoration(new VerticalItemDecoration(8,8,52,52));
+        binding.layoutDiscover.homeRcPopularTv.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                MediaTV data = (MediaTV) adapter.getItem(position);
+                Intent intent = new Intent(getContext(), MediaTVDetailsActivity.class);
+                intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
+                startActivity(intent);
+            }
+        });
+
+        homeViewModel.getPopularTV().observe(getViewLifecycleOwner(), new Observer<List<MediaTV>>() {
+            @Override
+            public void onChanged(List<MediaTV> mediaTVS) {
+                if (mediaTVS != null && mediaTVS.size() > 0){
+                    /*Comparator<MediaTV> comparator = new Comparator<MediaTV>() {
+                        @Override
+                        public int compare(MediaTV mediaTV, MediaTV t1) {
+                            return mediaTV.getPopularity().compareTo(t1.getPopularity());
+                        }
+                    };
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(mediaTVS, comparator.reversed());
+                    }*/
+                    if (mediaTVS.size() >= 6){
+                        adapter.setList(mediaTVS.subList(0,6));
+                    }else {
+                        adapter.setList(mediaTVS);
+                    }
+                }
             }
         });
     }
@@ -231,12 +306,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 Result data = (Result) adapter.getItem(position);
-                if (data.getMediaType().toLowerCase().contains("movie")){
-                    Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+                if (data.getMediaType().toLowerCase().contains("tv")){
+                    Intent intent = new Intent(getContext(), MediaTVDetailsActivity.class);
                     intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
                     startActivity(intent);
-                }else {
-                    Toast.makeText(getContext(), "TV Media Type", Toast.LENGTH_SHORT).show();
                 }
             }
         });

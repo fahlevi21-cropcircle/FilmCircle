@@ -31,7 +31,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(list.get(position));
+        holder.bind(list.get(position), position);
     }
 
     @Override
@@ -48,9 +48,12 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
             this.binding = binding;
         }
 
-        public void bind(Genre genre){
-            binding.setData(genre);
-            binding.executePendingBindings();
+        public void bind(Genre genre, int position){
+            if (position != list.size() - 1){
+                binding.itemChip.setText(genre.getName() + ", ");
+            }else {
+                binding.itemChip.setText(genre.getName());
+            }
         }
     }
 }

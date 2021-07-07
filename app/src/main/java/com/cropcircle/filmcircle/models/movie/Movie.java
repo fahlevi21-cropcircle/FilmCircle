@@ -234,7 +234,9 @@ public class Movie extends AbstractItem<Movie, Movie.ViewHolder> {
     public static void loadSmallGridImage(ImageView view, String image){
         if (image != null && image.toLowerCase().contains("https")){
             Glide.with(view).asBitmap().load(image.substring(1)).override(150,120).into(view);
-        }else {
+        } else if (image == null){
+            Glide.with(view).asBitmap().load(R.drawable.ic_baseline_person).override(150,120).into(view);
+        } else {
             Glide.with(view).asBitmap().load(Constants.IMG_PATH_500 + image).override(150,120).into(view);
         }
     }

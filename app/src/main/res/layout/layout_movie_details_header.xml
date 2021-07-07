@@ -11,89 +11,97 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/movie_details_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:loadMediumImage="@{data.backdropPath}"
+            android:src="@drawable/business"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:id="@+id/movie_details_fade_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fade_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/movie_details_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnPrimary"
             android:text="@{data.title}"
-            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@color/primaryTextColor"
+            app:layout_constraintBottom_toTopOf="@id/movie_details_header_small_info_container"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:textAppearance="?attr/textAppearanceHeadline5" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textColor="?attr/colorOnPrimary"
-            android:layout_marginEnd="16dp"
-            android:text="@{data.releaseDate.toString()}" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatRatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:rating="@{data.voteAverage.floatValue() - 5.0f}"
-                android:numStars="5"/>
+            android:id="@+id/movie_details_header_small_info_container"
+            app:layout_constraintBottom_toTopOf="@id/movie_details_rating"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
+                android:id="@+id/movie_details_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnPrimary"
-                android:text="@{data.voteCount.toString()}"
-                android:layout_marginStart="8dp"
-                android:textAppearance="?attr/textAppearanceCaption" />
+                android:text="2021"
+                android:textColor="@color/primaryTextColor"
+                android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/movie_details_genre_rc"
+                android:layout_width="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/movie_details_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="?attr/textAppearanceSubtitle2" />
         </LinearLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/movie_details_tabs"
+        <uz.jamshid.library.ExactRatingBar
+            android:id="@+id/movie_details_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            app:tabGravity="center"
-            style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface">
+            app:starCount="5"
+            app:starSize="32"
+            app:isIndicator="false"
+            app:starFillColor="@color/yellowColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Info" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Images" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Videos" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reviews" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Other" />
-        </com.google.android.material.tabs.TabLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -27,7 +27,7 @@
             android:layout_marginStart="32dp"
             android:text="Welcome"
             android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="@color/secondaryColor"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_logo" />
@@ -67,6 +67,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
+                android:indeterminateTint="?attr/colorPrimary"
+                android:progressTint="?attr/colorPrimary"
                 android:layout_marginStart="32dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -91,7 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_discover"
             app:startIconDrawable="@drawable/ic_baseline_person"
-            app:startIconTint="@color/primaryLightColor">
+            app:startIconTint="@color/primaryColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -114,7 +116,7 @@
             app:passwordToggleEnabled="true"
             style="@style/Theme.Widget.CustomInputLayout"
             app:startIconDrawable="@drawable/ic_baseline_lock"
-            app:startIconTint="@color/primaryLightColor">
+            app:startIconTint="@color/primaryColor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -135,7 +137,7 @@
             android:background="@drawable/login_button"
             android:text="Login"
             android:textStyle="bold"
-            app:backgroundTint="@color/primaryLightColor"
+            app:backgroundTint="@color/primaryColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_password" />

@@ -9,47 +9,51 @@
 
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:cardElevation="0dp">
 
-        <com.google.android.material.card.MaterialCardView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="0dp">
+            android:layout_height="wrap_content">
 
-            <FrameLayout
+            <ImageView
+                android:loadVideoImage="@{data.key}"
+                android:id="@+id/item_video"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:loadVideoImage="@{data.key}"
-                    android:id="@+id/item_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY" />
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
 
-                <ImageView
-                    android:id="@+id/item_video_play_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_play_circle_filled"/>
-            </FrameLayout>
+            <View
+                android:id="@+id/item_video_fade_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/fade_background"/>
 
-        </com.google.android.material.card.MaterialCardView>
+            <ImageView
+                android:id="@+id/item_video_play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_play_circle_filled"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:maxLines="2"
-            android:text="@{data.name}"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
-            android:id="@+id/item_video_title"
-            android:ellipsize="end"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:textColor="?attr/colorOnPrimary"
+                android:maxLines="2"
+                android:text="@{data.name}"
+                android:textAppearance="?attr/textAppearanceSubtitle2"
+                android:id="@+id/item_video_title"
+                android:ellipsize="end"/>
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 </layout>

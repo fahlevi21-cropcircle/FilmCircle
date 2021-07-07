@@ -11,6 +11,8 @@ import com.cropcircle.filmcircle.models.movie.Images;
 import com.cropcircle.filmcircle.models.movie.MovieVideos;
 import com.cropcircle.filmcircle.models.movie.Movies;
 import com.cropcircle.filmcircle.models.review.Reviews;
+import com.cropcircle.filmcircle.models.tv.MediaTV;
+import com.cropcircle.filmcircle.models.tv.ResultTV;
 import com.cropcircle.filmcircle.models.user.User;
 
 import java.util.Map;
@@ -42,13 +44,10 @@ public interface MovieService {
     Call<Movies> nowPlaying();
 
     @GET("movie/upcoming" + Constants.API_KEY)
-    Call<Movies> latestMovie();
+    Call<Movies> upcomingMovies();
 
     @GET("movie/top_rated" + Constants.API_KEY)
     Call<Movies> topRatedMovie();
-
-    @GET("movie/{id}/reviews" + Constants.API_KEY)
-    Call<Reviews> movieReviews(@Path("id") Integer movieId);
 
     @GET("movie/{id}/recommendations" + Constants.API_KEY)
     Call<Movies> movieRecommendation(@Path("id") Integer movieId, @QueryMap Map<String, String> query);
