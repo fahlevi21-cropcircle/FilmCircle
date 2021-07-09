@@ -11,6 +11,9 @@ public class MediaTV {
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
+    @SerializedName("genre_ids")
+    @Expose
+    private List<Integer> genreIds = null;
     @SerializedName("created_by")
     @Expose
     private List<CreatedBy> createdBy = null;
@@ -108,7 +111,6 @@ public class MediaTV {
      * @param networks
      * @param type
      * @param inProduction
-     * @param productionCountries
      * @param episodeRunTime
      * @param firstAirDate
      * @param numberOfSeasons
@@ -129,7 +131,6 @@ public class MediaTV {
      * @param originCountry
      * @param nextEpisodeToAir
      * @param tagline
-     * @param spokenLanguages
      * @param backdropPath
      * @param voteCount
      * @param lastAirDate
@@ -137,7 +138,7 @@ public class MediaTV {
      * @param homepage
      * @param status
      */
-    public MediaTV(String backdropPath, List<CreatedBy> createdBy, List<Integer> episodeRunTime,
+    public MediaTV(String backdropPath, List<CreatedBy> createdBy, List<Integer> genreIds, List<Integer> episodeRunTime,
                    String firstAirDate, List<Genre> genres, String homepage,
                    Integer id, Boolean inProduction, List<String> languages,
                    String lastAirDate, LastEpisodeToAir lastEpisodeToAir, String name,
@@ -149,6 +150,7 @@ public class MediaTV {
                    Double voteAverage, Integer voteCount) {
         super();
         this.backdropPath = backdropPath;
+        this.genreIds = genreIds;
         this.createdBy = createdBy;
         this.episodeRunTime = episodeRunTime;
         this.firstAirDate = firstAirDate;
@@ -185,6 +187,14 @@ public class MediaTV {
 
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
+    }
+
+    public List<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
     }
 
     public List<CreatedBy> getCreatedBy() {

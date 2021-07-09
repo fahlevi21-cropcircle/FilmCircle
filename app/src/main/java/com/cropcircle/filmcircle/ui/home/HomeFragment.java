@@ -80,6 +80,7 @@ public class HomeFragment extends Fragment {
             binding.layoutDiscover.sessionIdDummy.setText(sessionId);
         }
         binding.layoutDiscover.sessionIdDummy.setVisibility(View.GONE);
+        showLoading();
         observeData();
 
         binding.layoutEmpty.emptyRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -128,7 +129,7 @@ public class HomeFragment extends Fragment {
     private void setupSlider(){
         SliderAdapter adapter = new SliderAdapter();
         binding.layoutDiscover.homeSlider.setAdapter(adapter);
-        binding.layoutDiscover.homeRcNowPlaying.setOffScreenPageLimit(1);
+        binding.layoutDiscover.homeRcNowPlaying.setOffScreenPageLimit(3);
         binding.layoutDiscover.homeSlider.setIndicatorSliderGap(6);
         binding.layoutDiscover.homeSlider.setLifecycleRegistry(getLifecycle());
         homeViewModel.banners().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
@@ -164,11 +165,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<Result> movies) {
                 if (movies != null && movies.size()> 0){
-                    binding.layoutDiscover.homeLoadingPopularMovie.setVisibility(View.GONE);
+                    hideLoading();
                     Collections.sort(movies, Collections.reverseOrder());
                     trendingAdapter.setList(movies);
-                }else{
-                    binding.layoutDiscover.homeLoadingPopularMovie.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -197,7 +196,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<Movie> movies) {
                 if(movies != null && movies.size() > 0){
-                    binding.layoutDiscover.homeLoadingUpcomingMovie.setVisibility(View.GONE);
                     Comparator<Movie> comparator = new Comparator<Movie>() {
                         @Override
                         public int compare(Movie movie, Movie t1) {
@@ -209,8 +207,6 @@ public class HomeFragment extends Fragment {
                         Collections.sort(movies, comparator.reversed());
                     }
                     newReleaseAdapter.setList(movies);
-                }else{
-                    binding.layoutDiscover.homeLoadingUpcomingMovie.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -339,6 +335,16 @@ public class HomeFragment extends Fragment {
     private void hideErrorPage(){
         binding.layoutDiscover.getRoot().setVisibility(View.VISIBLE);
         binding.layoutEmpty.getRoot().setVisibility(View.GONE);
+    }
+
+    private void showLoading(){
+        binding.layoutDiscover.homeContainer.setVisibility(View.GONE);
+        binding.layoutDiscover.homeLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoading(){
+        binding.layoutDiscover.homeContainer.setVisibility(View.VISIBLE);
+        binding.layoutDiscover.homeLoading.setVisibility(View.GONE);
     }
 
     private boolean isNetworkConnected(){

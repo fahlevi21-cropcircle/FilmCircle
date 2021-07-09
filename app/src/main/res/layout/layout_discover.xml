@@ -8,32 +8,44 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/fragment_home">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="100dp">
+        android:layout_height="match_parent">
 
-        <com.zhpan.bannerview.BannerViewPager
-            android:id="@+id/home_slider"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:nestedScrollingEnabled="false"
-            app:bvp_indicator_checked_color="?attr/colorPrimary"
-            app:bvp_indicator_slide_mode="worm"
-            app:bvp_interval="3000"
-            app:bvp_auto_play="false"
-            app:bvp_indicator_visibility="gone"
-            app:bvp_reveal_width="12dp"
-            android:layout_marginTop="8dp"
-            app:bvp_page_style="multi_page_scale"
-            app:bvp_page_margin="8dp"
-            app:bvp_scroll_duration="600" />
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:layout_centerInParent="true"
+            android:id="@+id/home_loading"/>
 
         <LinearLayout
+            android:id="@+id/home_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingBottom="100dp">
+
+            <com.zhpan.bannerview.BannerViewPager
+                android:id="@+id/home_slider"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:nestedScrollingEnabled="false"
+                app:bvp_indicator_checked_color="?attr/colorPrimary"
+                app:bvp_indicator_slide_mode="worm"
+                app:bvp_interval="3000"
+                app:bvp_page_style="normal"
+                app:bvp_scroll_duration="600" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,31 +57,22 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/rubik"
-                    android:textStyle="bold"
                     android:text="This Week's top movies"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="?attr/colorPrimary"/>
+                    android:text="See All"
+                    android:textColor="?attr/colorPrimary" />
             </LinearLayout>
-
-            <ProgressBar
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
-                android:indeterminateTint="@color/primaryColor"
-                android:id="@+id/home_loading_popular_movie"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_rc_trending"
@@ -77,65 +80,66 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:nestedScrollingEnabled="false"/>
-        </LinearLayout>
+                android:nestedScrollingEnabled="false" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/rubik"
-            android:textStyle="bold"
-            android:text="Upcoming And New Released Movies"
-            android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
 
-        <ProgressBar
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:indeterminateTint="@color/primaryColor"
-            android:id="@+id/home_loading_upcoming_movie"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/rubik"
+                android:text="Upcoming And New Released Movies"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:nestedScrollingEnabled="false"
-            android:id="@+id/home_rc_new_release"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/home_rc_new_release"/>
 
-        <TextView
-            android:id="@+id/home_label_now_playing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/rubik"
-            android:textStyle="bold"
-            android:text="Now Playing!"
-            android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
 
-        <com.zhpan.bannerview.BannerViewPager
-            android:id="@+id/home_rc_now_playing"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            app:bvp_auto_play="false"
-            app:bvp_indicator_style="dash"
-            app:bvp_indicator_visibility="gone"
-            app:bvp_page_margin="8dp"
-            app:bvp_page_style="multi_page_scale"
-            app:bvp_reveal_width="8dp" />
+            <TextView
+                android:id="@+id/home_label_now_playing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/rubik"
+                android:text="Now Playing!"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <com.zhpan.bannerview.BannerViewPager
+                android:id="@+id/home_rc_now_playing"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                app:bvp_auto_play="false"
+                app:bvp_indicator_style="dash"
+                app:bvp_indicator_visibility="gone"
+                app:bvp_page_margin="8dp"
+                app:bvp_page_style="multi_page_scale"
+                app:bvp_reveal_width="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,9 +153,9 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/rubik"
-                    android:textStyle="bold"
                     android:text="Don't miss the TV series!"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -159,7 +163,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_baseline_arrow_forward"/>
+                    android:src="@drawable/ic_baseline_arrow_forward" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -169,53 +173,53 @@
                 android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"
                 tools:targetApi="lollipop" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/rubik"
+                android:text="Popular TV Series"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rc_popular_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/rubik"
+                android:textStyle="bold"
+                android:text="Popular Movies"
+                android:textSize="16sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rc_popular_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false" />
+
+
+            <EditText
+                android:id="@+id/session_id_dummy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Session id" />
+
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/rubik"
-            android:textStyle="bold"
-            android:text="Popular TV Series"
-            android:textSize="16sp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_rc_popular_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:nestedScrollingEnabled="false" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/rubik"
-            android:textStyle="bold"
-            android:text="Popular Movies"
-            android:textSize="16sp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_rc_popular_movies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:nestedScrollingEnabled="false" />
-
-
-        <EditText
-            android:id="@+id/session_id_dummy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Session id" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

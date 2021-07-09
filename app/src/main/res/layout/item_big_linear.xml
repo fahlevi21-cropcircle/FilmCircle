@@ -11,57 +11,59 @@
 
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardElevation="0dp">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardElevation="0dp">
+            android:orientation="vertical">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/item_trending_image"
                 android:layout_width="170dp"
                 android:layout_height="250dp"
+                app:riv_corner_radius="4dp"
                 android:loadMediumImage="@{data.posterPath}"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_menu_camera" />
-        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/item_trending_title"
-            style="@style/Theme.Text.CardTitleTextAppearance"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{data.title == null ? data.name : data.title}" />
+            <TextView
+                android:id="@+id/item_trending_title"
+                style="@style/Theme.Text.CardTitleTextAppearance"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.title == null ? data.name : data.title}" />
 
-        <TextView
-            android:id="@+id/item_trending_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{data.releaseDate == null ? data.firstAirDate : data.releaseDate}"
-            style="@style/Theme.Text.CardSubtitleTextAppearance"/>
+            <TextView
+                android:id="@+id/item_trending_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{data.releaseDate == null ? data.firstAirDate : data.releaseDate}"
+                style="@style/Theme.Text.CardSubtitleTextAppearance"/>
 
-        <uz.jamshid.library.ExactRatingBar
-            android:id="@+id/item_trending_vote_avg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:starSize="24"
-            app:starCount="5"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:starFillColor="@color/yellowColor"/>
-    </LinearLayout>
+            <uz.jamshid.library.ExactRatingBar
+                android:id="@+id/item_trending_vote_avg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:starSize="24"
+                app:starCount="5"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:starFillColor="@color/yellowColor"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

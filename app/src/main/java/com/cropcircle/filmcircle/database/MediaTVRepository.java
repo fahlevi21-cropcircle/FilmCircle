@@ -217,4 +217,31 @@ public class MediaTVRepository {
 
         return mutableLiveData;
     }
+
+    public LiveData<List<MediaTV>> getFavoriteTv(Integer userId, String sessionId) {
+        final String TAG = "favorite TV";
+        Call<ResultTV> call = service.getFavoriteTV(userId, sessionId);
+
+        MutableLiveData<List<MediaTV>> mutableLiveData = new MutableLiveData<>();
+        call.enqueue(new Callback<ResultTV>() {
+            @Override
+            public void onResponse(Call<ResultTV> call, Response<ResultTV> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultTV> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+
+
+        return mutableLiveData;
+    }
 }

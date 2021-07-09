@@ -400,6 +400,58 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
+    public LiveData<List<Movie>> getFavoriteMovies(int userId, String sessionId){
+        final String TAG = "favorite movies";
+        Call<Movies> call = service.getFavoriteMovies(userId, sessionId);
+        MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movies> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+
+        return mutableLiveData;
+    }
+
+    public LiveData<List<Movie>> getMovieWatchlist(int userId, String sessionId){
+        final String TAG = "watchlist movies";
+        Call<Movies> call = service.getMovieWatchlist(userId, sessionId);
+        MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movies> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+
+        return mutableLiveData;
+    }
+
     public void createRequestToken(OnRequestTokenResponse onRequestTokenResponse) {
         String TAG = "create token";
         Call<RequestToken> call = service.createRequestToken();

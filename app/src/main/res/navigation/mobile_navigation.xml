@@ -19,7 +19,13 @@
 
     <fragment
         android:id="@+id/nav_collections"
-        android:name="com.cropcircle.filmcircle.ui.collection.CollectionsFragment"
+        android:name="com.cropcircle.filmcircle.ui.collection.movie.CollectionsFragment"
         android:label="Collections"
         tools:layout="@layout/fragment_collections" />
+
+    <fragment
+        android:id="@+id/nav_collections_tv"
+        android:name="com.cropcircle.filmcircle.ui.collection.tv.CollectionsTVFragment"
+        android:label="Collections"
+        tools:layout="@layout/fragement_collections_tv" />
 </navigation>

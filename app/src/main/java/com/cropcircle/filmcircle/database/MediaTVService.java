@@ -4,6 +4,7 @@ import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.models.movie.Images;
 import com.cropcircle.filmcircle.models.movie.MovieCredits;
 import com.cropcircle.filmcircle.models.movie.MovieVideos;
+import com.cropcircle.filmcircle.models.movie.Movies;
 import com.cropcircle.filmcircle.models.review.Reviews;
 import com.cropcircle.filmcircle.models.tv.MediaTV;
 import com.cropcircle.filmcircle.models.tv.ResultTV;
@@ -12,6 +13,7 @@ import com.google.android.exoplayer2.C;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MediaTVService {
 
@@ -35,4 +37,7 @@ public interface MediaTVService {
 
     @GET("tv/{id}/videos" + Constants.API_KEY)
     Call<MovieVideos> getVideos(@Path("id") Integer id);
+
+    @GET("account/{id}/favorite/tv" + Constants.API_KEY)
+    Call<ResultTV> getFavoriteTV(@Path("id") Integer userId, @Query("session_id") String sessionId);
 }

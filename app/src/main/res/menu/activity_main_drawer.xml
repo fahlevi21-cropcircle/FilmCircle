@@ -13,8 +13,27 @@
             android:icon="@drawable/ic_baseline_people"
             android:title="Actors" />
         <item
-            android:id="@+id/nav_collections"
-            android:icon="@drawable/ic_baseline_collections"
-            android:title="Collections" />
+            android:id="@+id/nav_discovers"
+            android:icon="@drawable/ic_baseline_search"
+            android:title="Discover" />
+        <item
+            android:id="@+id/nav_genre"
+            android:icon="@drawable/ic_baseline_people"
+            android:title="Genre" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="Collections">
+            <menu>
+                <item
+                    android:id="@+id/nav_collections"
+                    android:icon="@drawable/ic_baseline_movie"
+                    android:title="Movies" />
+                <item
+                    android:id="@+id/nav_collections_tv"
+                    android:icon="@drawable/ic_baseline_tv"
+                    android:title="Series" />
+            </menu>
+        </item>
     </group>
 </menu>

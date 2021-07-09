@@ -1,10 +1,18 @@
 package com.cropcircle.filmcircle;
 
+import android.util.Log;
+
 import com.cropcircle.filmcircle.models.movie.Genre;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -66,6 +74,18 @@ public class Constants {
                     new Genre(37, "Western")
             )
     );
+
+    public String simpleDateFormatter(String date){
+        String pattern = "d MMM, yyyy";
+        int day = Integer.parseInt(date.substring(8,9));
+        int month = Integer.parseInt(date.substring(6,7));
+        int year = Integer.parseInt(date.substring(0,4));
+        Calendar date1 = Calendar.getInstance();
+        date1.set(year, month, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+
+        return simpleDateFormat.format(date1.getTime());
+    }
 
 
     /*used for fastadapter livedata DiffUtil.DiffResult diffResult = FastAdapterDiffUtil.calculateDiff(newReleaseAdapter, movies);

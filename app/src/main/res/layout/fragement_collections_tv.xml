@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,18 +10,18 @@
         android:layout_width="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/collections_toolbar"
+            android:id="@+id/collections_tv_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-            app:title="Movie Collections"
+            app:title="TV Series Collections"
             app:menu="@menu/menu_home"
             app:titleTextAppearance="@style/Theme.Text.ToolbarTitleTextAppearance"
             app:navigationIcon="@drawable/ic_baseline_menu_open"
             style="@style/Theme.Widget.SurfaceToolbar"/>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/collections_tabs"
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -51,28 +50,18 @@
         android:fillViewport="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ProgressBar
-                android:id="@+id/collections_loading"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="36dp"
-                android:layout_centerInParent="true"
-                android:indeterminateTint="?attr/colorPrimary"
-                android:progressTint="?attr/colorPrimary" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_collections_favorite"
+                android:id="@+id/rc_collections_tv_favorite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false" />
-
-
-        </RelativeLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

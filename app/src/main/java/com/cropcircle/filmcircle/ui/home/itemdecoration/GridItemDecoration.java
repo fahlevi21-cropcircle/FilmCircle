@@ -26,5 +26,11 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
         outRect.top = top;
         outRect.left = left;
         outRect.right = right;
+
+        if (parent.getChildAdapterPosition(view) % 2 == 0){
+            outRect.left = 24;
+        }else {
+            outRect.right = 24;
+        }
     }
 }

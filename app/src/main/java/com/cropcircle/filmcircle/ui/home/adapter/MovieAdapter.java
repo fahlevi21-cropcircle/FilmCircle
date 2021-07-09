@@ -11,12 +11,14 @@ import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemBigLinearBinding;
 import com.cropcircle.filmcircle.databinding.ItemCardBannerBinding;
+import com.cropcircle.filmcircle.databinding.ItemFavoriteMovieBinding;
 import com.cropcircle.filmcircle.databinding.ItemImageSmallBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallGridBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallLinearBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallVerticalMovieBinding;
 import com.cropcircle.filmcircle.models.movie.Genre;
 import com.cropcircle.filmcircle.models.movie.Movie;
+import com.google.android.exoplayer2.C;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -64,7 +66,6 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
             binding.setData(movie);
             List<Genre> genres = Constants.movieGenres;
             List<Genre> selectedGenres = new ArrayList<>();
-            binding.executePendingBindings();
             if (movie.getGenreIds() != null && movie.getGenreIds().size() > 0){
                 for (Genre g : genres){
                     if (movie.getGenreIds().contains(g.getId())){
@@ -81,6 +82,16 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
                     binding.itemSmallVerticalGenres.append(" ");
                 }
             }
+
+            binding.executePendingBindings();
+        }else if(viewType == R.layout.item_favorite_movie){
+            ItemFavoriteMovieBinding binding = (ItemFavoriteMovieBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(movie);
+            binding.itemFavoriteRating.setStarCount(5);
+            binding.itemFavoriteRating.setStar(movie.getVoteAverage().floatValue() - 5.0f);
+            Constants constants = new Constants();
+            binding.itemFavoriteDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
+            binding.executePendingBindings();
         }
     }
 }

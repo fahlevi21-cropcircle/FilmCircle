@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.movie.Movie" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/item_favorite_image"
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:scaleType="centerCrop"
+                android:loadMediumImage="@{data.backDropPath == null ? data.posterPath : data.backDropPath}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/item_favorite_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{data.title == null ? data.originalTitle : data.title}"
+                    android:textAppearance="@style/Theme.Text.CardTitleTextAppearance" />
+
+                <TextView
+                    android:id="@+id/item_favorite_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Theme.Text.CardSubtitleTextAppearance" />
+
+                <uz.jamshid.library.ExactRatingBar
+                    android:id="@+id/item_favorite_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:starFillColor="@color/yellowColor"
+                    app:starSize="24" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

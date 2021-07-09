@@ -6,4 +6,7 @@
         android:icon="@drawable/ic_baseline_search"
         android:title="Search"
         app:showAsAction="ifRoom" />
+    <item
+        android:title="Logout"
+        app:showAsAction="never" />
 </menu>

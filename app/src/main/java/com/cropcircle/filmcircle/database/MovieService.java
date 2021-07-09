@@ -77,6 +77,12 @@ public interface MovieService {
     @GET("account" + Constants.API_KEY)
     Call<User> getUserDetails(@Query("session_id") String sessionId);
 
+    @GET("account/{id}/favorite/movies" + Constants.API_KEY)
+    Call<Movies> getFavoriteMovies(@Path("id") Integer userId, @Query("session_id") String sessionId);
+
+    @GET("account/{id}/watchlist/movies" + Constants.API_KEY)
+    Call<Movies> getMovieWatchlist(@Path("id") Integer userId, @Query("session_id") String sessionId);
+
     @FormUrlEncoded
     @POST("account/{userid}/favorite" + Constants.API_KEY)
     Call<ActionResponse> addToFavorites(
