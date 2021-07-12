@@ -43,7 +43,6 @@ import com.cropcircle.filmcircle.ui.home.adapter.ReviewAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.SeasonTVAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.VideoAdapter;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.ActorsItemDecoration;
-import com.cropcircle.filmcircle.ui.home.itemdecoration.GridItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.HorizontalItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.VerticalItemDecoration;
 
@@ -99,9 +98,13 @@ public class MediaTVDetailsActivity extends AppCompatActivity {
             public void onChanged(MediaTV mediaTV) {
                 if (mediaTV != null){
                     binding.setData(mediaTV);
-                    binding.tvDetailsPoster.tvDetailsRating.setStar(mediaTV.getVoteAverage().floatValue() - 5.0f);
                     String bullet = " &bull; ";
                     String tagLine;
+                    binding.layoutContent.tvDetailsPopularity.setText(mediaTV.getPopularity().toString());
+                    binding.layoutContent.tvDetailsRating.setStar(mediaTV.getVoteAverage().floatValue() - 5.0f);
+                    int score = (int) (mediaTV.getVoteAverage() * 10);
+                    String scoreText = score + " %";
+                    binding.layoutContent.tvDetailsScore.setText(scoreText);
                     if (mediaTV.getTagline() != null){
                         tagLine = mediaTV.getTagline();
                     }else if (mediaTV.getStatus() != null){
@@ -112,8 +115,6 @@ public class MediaTVDetailsActivity extends AppCompatActivity {
                     //binding.movieDetailsPoster.movieDetailsTagline.setText(Html.fromHtml(tagLine));
                     String releaseYearText = mediaTV.getFirstAirDate().substring(0,4) + bullet;
                     String durationText = bullet + mediaTV.getEpisodeRunTime().get(0).toString() + " Minutes";
-                    binding.tvDetailsPoster.tvDetailsReleaseDate.setText(Html.fromHtml(releaseYearText));
-                    binding.tvDetailsPoster.tvDetailsDuration.setText(Html.fromHtml(durationText));
                     if (mediaTV.getGenres() != null && mediaTV.getGenres().size() >= 3){
                         getMovieGenres(mediaTV.getGenres().subList(0,3));
                     }else {
@@ -141,9 +142,6 @@ public class MediaTVDetailsActivity extends AppCompatActivity {
         binding.tvDetailsPoster.tvDetailsGenreRc.setHasFixedSize(true);
         binding.tvDetailsPoster.tvDetailsGenreRc.setLayoutManager(new LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false));
-        binding.tvDetailsPoster.tvDetailsGenreRc.addItemDecoration(
-                new GridItemDecoration(4, 4, 0, 0)
-        );
     }
 
     private void getSeasons(List<Season> list){
@@ -201,10 +199,10 @@ public class MediaTVDetailsActivity extends AppCompatActivity {
     }
 
     private void getMovieImages(){
-        ImageAdapter adapter = new ImageAdapter(R.layout.item_image_medium);
+        ImageAdapter adapter = new ImageAdapter(R.layout.item_mediatv_details_image);
         binding.layoutContent.tvDetailsImagesRc.setHasFixedSize(true);
-        binding.layoutContent.tvDetailsImagesRc.setLayoutManager(new GridLayoutManager(this, 2));
-        binding.layoutContent.tvDetailsImagesRc.addItemDecoration(new GridItemDecoration(8,8,8,8));
+        binding.layoutContent.tvDetailsImagesRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.layoutContent.tvDetailsImagesRc.addItemDecoration(new HorizontalItemDecoration(8,8,4,4, 16));
         binding.layoutContent.tvDetailsImagesRc.setAdapter(adapter);
 
         viewModel.getImages().observe(this, new Observer<Images>() {

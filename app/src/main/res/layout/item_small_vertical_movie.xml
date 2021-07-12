@@ -19,8 +19,8 @@
             android:orientation="horizontal">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="74dp"
-                android:layout_height="match_parent"
+                android:layout_width="84dp"
+                android:layout_height="120dp"
                 app:riv_corner_radius="8dp"
                 android:scaleType="fitXY"
                 android:loadMediumImage="@{data.posterPath == null ? data.backDropPath : data.posterPath}"/>

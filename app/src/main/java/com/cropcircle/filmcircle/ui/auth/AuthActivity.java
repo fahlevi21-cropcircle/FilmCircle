@@ -79,6 +79,7 @@ public class AuthActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(List<Movie> movies) {
                     if (movies != null && movies.size() > 0){
+                        Toast.makeText(AuthActivity.this, "Size " + movies.size(), Toast.LENGTH_SHORT).show();
                         binding.authProgressbar.setVisibility(View.GONE);
                         adapter.setList(movies.subList(0,5));
                     }

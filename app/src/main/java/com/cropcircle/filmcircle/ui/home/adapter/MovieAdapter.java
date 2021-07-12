@@ -87,8 +87,6 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
         }else if(viewType == R.layout.item_favorite_movie){
             ItemFavoriteMovieBinding binding = (ItemFavoriteMovieBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(movie);
-            binding.itemFavoriteRating.setStarCount(5);
-            binding.itemFavoriteRating.setStar(movie.getVoteAverage().floatValue() - 5.0f);
             Constants constants = new Constants();
             binding.itemFavoriteDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
             binding.executePendingBindings();

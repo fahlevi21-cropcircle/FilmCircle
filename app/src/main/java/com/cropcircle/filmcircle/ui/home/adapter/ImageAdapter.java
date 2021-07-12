@@ -8,6 +8,10 @@ import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemImageMediumBinding;
+import com.cropcircle.filmcircle.databinding.ItemImageSmallBinding;
+import com.cropcircle.filmcircle.databinding.ItemImageSmallGridBinding;
+import com.cropcircle.filmcircle.databinding.ItemMediatvDetailsImageBinding;
+import com.cropcircle.filmcircle.databinding.ItemMediatvSeasonBinding;
 import com.cropcircle.filmcircle.models.movie.Backdrop;
 import com.cropcircle.filmcircle.models.movie.Images;
 
@@ -15,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ImageAdapter extends BaseQuickAdapter<Backdrop, BaseDataBindingHolder> {
     private int viewType;
+
     public ImageAdapter(int layoutResId) {
         super(layoutResId);
         viewType = layoutResId;
@@ -28,18 +33,21 @@ public class ImageAdapter extends BaseQuickAdapter<Backdrop, BaseDataBindingHold
     @Override
     protected void convert(@NotNull BaseDataBindingHolder baseDataBindingHolder, Backdrop backdrop) {
         int position = getItemPosition(backdrop);
-        if (viewType == R.layout.item_image_medium){
+        if (viewType == R.layout.item_image_medium) {
             ItemImageMediumBinding binding = (ItemImageMediumBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(backdrop);
             binding.executePendingBindings();
-
-            if (position % 3 == 0){
-                Glide.with(binding.getRoot()).asBitmap().load(
-                        Constants.BACKDROP_PATH_780 + backdrop.getFilePath()).override(1024,786).into(binding.itemImage);
-            }else{
-                Glide.with(binding.getRoot()).asBitmap().load(
-                        Constants.BACKDROP_PATH_780 + backdrop.getFilePath()).override(800,600).into(binding.itemImage);
-            }
+            Glide.with(binding.getRoot()).asBitmap().load(
+                    Constants.BACKDROP_PATH_780 + backdrop.getFilePath()).override(1024, 786).into(binding.itemImage);
+        }else if (viewType == R.layout.item_mediatv_details_image){
+            ItemMediatvDetailsImageBinding binding = (ItemMediatvDetailsImageBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(backdrop);
+            binding.executePendingBindings();
+        }else if (viewType == R.layout.item_image_small_grid){
+            ItemImageSmallGridBinding binding = (ItemImageSmallGridBinding) baseDataBindingHolder.getDataBinding();
+            Glide.with(binding.itemImage).asBitmap().load(
+                    Constants.BACKDROP_PATH_780 + backdrop.getFilePath()).into(binding.itemImage);
+            binding.executePendingBindings();
         }
     }
 }

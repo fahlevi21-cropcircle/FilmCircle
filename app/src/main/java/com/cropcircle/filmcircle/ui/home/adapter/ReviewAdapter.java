@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
+import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemReviewBinding;
 import com.cropcircle.filmcircle.databinding.ItemVideoLargeBinding;
@@ -61,6 +62,16 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         public void bind(Review video){
             binding.setData(video);
+            if (video != null && video.getAuthorDetails().getRating() != null){
+                binding.itemReviewRate.setStar(video.getAuthorDetails().getRating().floatValue() - 5.0f);
+                if (video.getCreatedAt() != null){
+                    Constants constants = Constants.getInstance();
+                    String dateCreated = "on " + constants.simpleDateFormatter(video.getCreatedAt());
+                    binding.itemReviewDate.setText(dateCreated);
+                }else {
+                    binding.itemReviewDate.setText("no date");
+                }
+            }
             binding.executePendingBindings();
 
             binding.itemReviewContent.setOnClickListener(new View.OnClickListener() {

@@ -55,7 +55,7 @@ public class CollectionsFragment extends Fragment implements TabLayout.OnTabSele
 
 
         binding.rcCollectionsFavorite.setHasFixedSize(true);
-        binding.rcCollectionsFavorite.addItemDecoration(new GridItemDecoration(8,8,12,12));
+        binding.rcCollectionsFavorite.addItemDecoration(new GridItemDecoration(12,12,12,12));
 
         //default selected tab
         showLoading();

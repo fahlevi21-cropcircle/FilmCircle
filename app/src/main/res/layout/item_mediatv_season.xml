@@ -8,20 +8,13 @@
             type="com.cropcircle.filmcircle.models.tv.Season" />
     </data>
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/item_season_card"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_season_image"
@@ -30,7 +23,6 @@
             android:src="@drawable/business"
             android:layout_marginStart="8dp"
             app:riv_border_width="1dp"
-            app:riv_border_color="@color/containerBackground"
             android:scaleType="fitXY"
             android:loadMediumImage="@{data.posterPath}"
             app:riv_corner_radius="8dp"
@@ -42,14 +34,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@id/item_season_card"
-            app:layout_constraintTop_toTopOf="@id/item_season_card"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_season_image"
-            app:layout_constraintBottom_toBottomOf="@id/item_season_card"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp">
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/item_season_title"

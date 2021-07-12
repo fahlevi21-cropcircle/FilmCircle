@@ -6,13 +6,14 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class GridItemDecoration extends RecyclerView.ItemDecoration {
+public class ImageGridItemDecoration extends RecyclerView.ItemDecoration {
+
     int left;
     int right;
     int top;
     int bottom;
 
-    public GridItemDecoration(int left, int right, int top, int bottom) {
+    public ImageGridItemDecoration(int left, int right, int top, int bottom) {
         this.left = left;
         this.right = right;
         this.top = top;
@@ -27,10 +28,8 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
         outRect.left = left;
         outRect.right = right;
 
-        if (parent.getChildAdapterPosition(view) % 2 == 0){
-            outRect.left = 48;
-        }else {
-            outRect.right = 48;
+        if (parent.getChildAdapterPosition(view) % 3 == 0){
+            outRect.left = 16;
         }
     }
 }

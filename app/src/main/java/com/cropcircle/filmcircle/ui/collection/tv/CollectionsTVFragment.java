@@ -69,8 +69,8 @@ public class CollectionsTVFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
-        decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.custom_divider)));
+        VerticalItemDecoration decoration = new VerticalItemDecoration(16,16,16,16);
+        //decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.custom_divider)));
         recyclerView.addItemDecoration(decoration);
         recyclerView.setAdapter(adapter);
 

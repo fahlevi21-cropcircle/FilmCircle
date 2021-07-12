@@ -78,10 +78,10 @@ public interface MovieService {
     Call<User> getUserDetails(@Query("session_id") String sessionId);
 
     @GET("account/{id}/favorite/movies" + Constants.API_KEY)
-    Call<Movies> getFavoriteMovies(@Path("id") Integer userId, @Query("session_id") String sessionId);
+    Call<Movies> getFavoriteMovies(@Path("id") Integer userId, @Query("session_id") String sessionId, @Query("sort_by") String sortBy);
 
     @GET("account/{id}/watchlist/movies" + Constants.API_KEY)
-    Call<Movies> getMovieWatchlist(@Path("id") Integer userId, @Query("session_id") String sessionId);
+    Call<Movies> getMovieWatchlist(@Path("id") Integer userId, @Query("session_id") String sessionId, @Query("sort_by") String sortBy);
 
     @FormUrlEncoded
     @POST("account/{userid}/favorite" + Constants.API_KEY)

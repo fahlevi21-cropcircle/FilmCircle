@@ -9,11 +9,6 @@
         android:title="Add to My Favorites"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_add_to_watchlist"
-        android:icon="@drawable/ic__library_add_outlined"
-        android:title="Add to My Watchlist"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_add_to_list"
         android:icon="@drawable/outline_bookmark_add_24"
         android:title="Add to My List"

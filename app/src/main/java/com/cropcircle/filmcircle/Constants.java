@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Constants {
+    private static Constants instance;
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "?api_key=2c462f471b08742ae8128403a4dc6133";
     public static final String IMG_PATH_180 = "https://image.tmdb.org/t/p/w185";
@@ -74,6 +75,13 @@ public class Constants {
                     new Genre(37, "Western")
             )
     );
+
+    public static Constants getInstance() {
+        if (instance == null){
+            instance = new Constants();
+        }
+        return instance;
+    }
 
     public String simpleDateFormatter(String date){
         String pattern = "d MMM, yyyy";

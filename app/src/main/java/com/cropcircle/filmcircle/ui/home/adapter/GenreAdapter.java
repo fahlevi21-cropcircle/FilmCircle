@@ -51,9 +51,11 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         public void bind(Genre genre, int position){
             if (position != list.size() - 1){
                 binding.itemChip.setText(genre.getName() + ", ");
-            }else {
-                binding.itemChip.setText(genre.getName());
+                binding.executePendingBindings();
+                return;
             }
+            binding.itemChip.setText(genre.getName());
+            binding.executePendingBindings();
         }
     }
 }

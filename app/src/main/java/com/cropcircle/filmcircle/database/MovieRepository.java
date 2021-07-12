@@ -402,7 +402,7 @@ public class MovieRepository {
 
     public LiveData<List<Movie>> getFavoriteMovies(int userId, String sessionId){
         final String TAG = "favorite movies";
-        Call<Movies> call = service.getFavoriteMovies(userId, sessionId);
+        Call<Movies> call = service.getFavoriteMovies(userId, sessionId, "created_at.desc");
         MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
 
         call.enqueue(new Callback<Movies>() {
@@ -428,7 +428,7 @@ public class MovieRepository {
 
     public LiveData<List<Movie>> getMovieWatchlist(int userId, String sessionId){
         final String TAG = "watchlist movies";
-        Call<Movies> call = service.getMovieWatchlist(userId, sessionId);
+        Call<Movies> call = service.getMovieWatchlist(userId, sessionId, "created_at.desc");
         MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
 
         call.enqueue(new Callback<Movies>() {

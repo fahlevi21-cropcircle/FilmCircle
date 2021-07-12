@@ -32,7 +32,7 @@
                     layout="@layout/layout_mediatv_details_header"
                     android:id="@+id/tv_details_poster"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="285dp"
                     app:layout_collapseMode="parallax"
                     binding:data="@{data}"
                     app:layout_collapseParallaxMultiplier="0.7" />

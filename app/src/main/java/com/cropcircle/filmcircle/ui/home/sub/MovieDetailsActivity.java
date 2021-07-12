@@ -42,13 +42,9 @@ import com.cropcircle.filmcircle.ui.home.adapter.GenreAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.ImageAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.ReviewAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.VideoAdapter;
-import com.cropcircle.filmcircle.ui.home.itemdecoration.ActorsItemDecoration;
-import com.cropcircle.filmcircle.ui.home.itemdecoration.GridItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.HorizontalItemDecoration;
+import com.cropcircle.filmcircle.ui.home.itemdecoration.ImageGridItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.VerticalItemDecoration;
-import com.cropcircle.filmcircle.ui.home.sub.tabs.TabsAdapter;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -157,26 +153,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
             public void onChanged(MovieDetails movieDetails) {
                 if (movieDetails != null){
                     binding.setData(movieDetails);
-                    binding.movieDetailsPoster.movieDetailsRating.setStar(movieDetails.getVoteAverage().floatValue() - 5.0f);
+                    binding.layoutContent.movieDetailsRating.setStar(movieDetails.getVoteAverage().floatValue() - 5.0f);
                     String bullet = " &bull; ";
-                    String tagLine;
+                    String voteCount = movieDetails.getVoteCount() + " User(s)";
+                    binding.layoutContent.movieDetailsVoteCount.setText(voteCount);
                     if (movieDetails.getTagline() != null){
-                        tagLine = movieDetails.getTagline();
-                    }else if (movieDetails.getStatus() != null){
-                        tagLine = movieDetails.getStatus();
-                    }else {
-                        tagLine = "Voted by " + movieDetails.getVoteCount() + " users";
+                        //String tagline = "' " + movieDetails.getTagline() + " '";
+                        binding.layoutContent.movieDetailsTagline.setText(movieDetails.getTagline());
+                        binding.layoutContent.movieDetailsTagline.setVisibility(View.VISIBLE);
+                    }else{
+                        binding.layoutContent.movieDetailsTagline.setVisibility(View.GONE);
                     }
-                    //binding.movieDetailsPoster.movieDetailsTagline.setText(Html.fromHtml(tagLine));
                     String releaseYearText = movieDetails.getReleaseDate().substring(0,4) + bullet;
                     String durationText = bullet + movieDetails.getRuntime().toString() + " Minutes";
-                    binding.movieDetailsPoster.movieDetailsReleaseDate.setText(Html.fromHtml(releaseYearText));
-                    binding.movieDetailsPoster.movieDetailsDuration.setText(Html.fromHtml(durationText));
-                    if (movieDetails.getGenres() != null && movieDetails.getGenres().size() >= 3){
-                        getMovieGenres(movieDetails.getGenres().subList(0,3));
-                    }else {
-                        getMovieGenres(movieDetails.getGenres());
-                    }
+                    getMovieGenres(movieDetails.getGenres());
                 }
             }
         });
@@ -190,27 +180,30 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void getMovieGenres(List<Genre> genreList){
-        GenreAdapter adapter = new GenreAdapter();
-        adapter.setList(genreList);
-        binding.movieDetailsPoster.movieDetailsGenreRc.setAdapter(adapter);
-        binding.movieDetailsPoster.movieDetailsGenreRc.setHasFixedSize(true);
-        binding.movieDetailsPoster.movieDetailsGenreRc.setLayoutManager(new LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL, false));
-        binding.movieDetailsPoster.movieDetailsGenreRc.addItemDecoration(
-                new GridItemDecoration(4, 4, 0, 0)
-        );
+        for (int i = 0; i < genreList.size(); i++){
+            binding.layoutContent.movieDetailsGenre.append(genreList.get(i).getName());
+            if (i != genreList.size() - 1){
+                binding.layoutContent.movieDetailsGenre.append(", ");
+            }else {
+                binding.layoutContent.movieDetailsGenre.append(" ");
+            }
+        }
     }
 
     private void getMovieCasters(){
         CastRecyclerViewAdapter adapter = new CastRecyclerViewAdapter(R.layout.item_caster);
         binding.layoutContent.movieDetailsCastRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.layoutContent.movieDetailsCastRc.setHasFixedSize(true);
-        binding.layoutContent.movieDetailsCastRc.addItemDecoration(new HorizontalItemDecoration(8,8,8,8, 16));
+        binding.layoutContent.movieDetailsCastRc.addItemDecoration(new HorizontalItemDecoration(8,8,0,0, 16));
         viewModel.getCasters().observe(this, new Observer<List<Cast>>() {
             @Override
             public void onChanged(List<Cast> casts) {
                 if (casts != null && casts.size() > 0){
-                    adapter.setList(casts.subList(0, 8));
+                    if (casts.size() >= 8){
+                        adapter.setList(casts.subList(0, 8));
+                    }else {
+                        adapter.setList(casts);
+                    }
                     binding.layoutContent.movieDetailsCastRc.setAdapter(adapter);
                 }
             }
@@ -222,7 +215,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.layoutContent.movieDetailsReviewRc.setHasFixedSize(true);
         binding.layoutContent.movieDetailsReviewRc.setLayoutManager(new LinearLayoutManager(this));
         binding.layoutContent.movieDetailsReviewRc.setAdapter(adapter);
-        binding.layoutContent.movieDetailsReviewRc.addItemDecoration(new ActorsItemDecoration(16));
+        binding.layoutContent.movieDetailsReviewRc.addItemDecoration(new VerticalItemDecoration(16,16,16,16));
 
         viewModel.getReview().observe(this, new Observer<List<Review>>() {
             @Override
@@ -231,10 +224,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     binding.layoutContent.movieDetailsNoReview.setVisibility(View.GONE);
                     if (reviews.size() > 3){
                         adapter.setList(reviews.subList(0,3));
+                        int totalReview = reviews.size() - 3;
+                        binding.layoutContent.movieDetailsReviewAll.setText("See all (" + totalReview + ")");
                     }else {
+                        binding.layoutContent.movieDetailsReviewAll.setVisibility(View.GONE);
                         adapter.setList(reviews);
                     }
                 }else{
+                    binding.layoutContent.movieDetailsReviewAll.setVisibility(View.GONE);
                     binding.layoutContent.movieDetailsNoReview.setVisibility(View.VISIBLE);
                 }
             }
@@ -242,10 +239,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void getMovieImages(){
-        ImageAdapter adapter = new ImageAdapter(R.layout.item_image_medium);
+        ImageAdapter adapter = new ImageAdapter(R.layout.item_image_small_grid);
         binding.layoutContent.movieDetailsImagesRc.setHasFixedSize(true);
-        binding.layoutContent.movieDetailsImagesRc.setLayoutManager(new GridLayoutManager(this, 2));
-        binding.layoutContent.movieDetailsImagesRc.addItemDecoration(new GridItemDecoration(8,8,8,8));
+        binding.layoutContent.movieDetailsImagesRc.setLayoutManager(new GridLayoutManager(this, 3));
+        binding.layoutContent.movieDetailsImagesRc.addItemDecoration(new ImageGridItemDecoration(8,8,8,8));
         binding.layoutContent.movieDetailsImagesRc.setAdapter(adapter);
 
         viewModel.getImages().observe(this, new Observer<List<Backdrop>>() {
@@ -289,9 +286,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
             public void OnResponse(AccountStates accountStates) {
                 if (accountStates != null && accountStates.getId() != null){
                     if (accountStates.getFavorite()){
-                        menu.getItem( 2).setIcon(R.drawable.ic_baseline_favorite);
+                        menu.getItem( 1).setIcon(R.drawable.ic_baseline_favorite);
                     }else {
-                        menu.getItem(2).setIcon(R.drawable.ic_baseline_favorite_border_24);
+                        menu.getItem(1).setIcon(R.drawable.ic_baseline_favorite_border_24);
                     }
 
                     if (accountStates.getWatchlist()){
