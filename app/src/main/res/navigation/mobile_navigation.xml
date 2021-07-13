@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
+        android:id="@+id/nav_genre"
+        android:name="com.cropcircle.filmcircle.ui.genre.GenreContainerFragment"
+        android:label="Genres"
+        tools:layout="@layout/fragment_genre_container"/>
+
+    <fragment
         android:id="@+id/nav_collections"
         android:name="com.cropcircle.filmcircle.ui.collection.movie.CollectionsFragment"
         android:label="Collections"

@@ -218,7 +218,7 @@ public class HomeFragment extends Fragment {
         binding.layoutDiscover.homeRcPopularMovies.setHasFixedSize(true);
         binding.layoutDiscover.homeRcPopularMovies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.layoutDiscover.homeRcPopularMovies.setAdapter(popularAdapter);
-        binding.layoutDiscover.homeRcPopularMovies.addItemDecoration(new VerticalItemDecoration(8, 8, 52, 52));
+        binding.layoutDiscover.homeRcPopularMovies.addItemDecoration(new VerticalItemDecoration(16, 16, 52, 52));
         popularAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment {
         MediaTVAdapter adapter = new MediaTVAdapter(R.layout.item_small_vertical_tv);
         binding.layoutDiscover.homeRcPopularTv.setHasFixedSize(true);
         binding.layoutDiscover.homeRcPopularTv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.layoutDiscover.homeRcPopularTv.addItemDecoration(new VerticalItemDecoration(8,8,52,52));
+        binding.layoutDiscover.homeRcPopularTv.addItemDecoration(new VerticalItemDecoration(16,16,52,52));
         binding.layoutDiscover.homeRcPopularTv.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {

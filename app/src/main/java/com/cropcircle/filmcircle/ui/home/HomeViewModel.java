@@ -60,10 +60,6 @@ public class HomeViewModel extends ViewModel {
         return tvRepository.topRated();
     }
 
-    public LiveData<List<Movie>> getGenreList() {
-        return Transformations.switchMap(genreId, id-> repository.getByGenre(id));
-    }
-
     public void setGenreId(int genreId) {
         this.genreId.setValue(genreId);
     }

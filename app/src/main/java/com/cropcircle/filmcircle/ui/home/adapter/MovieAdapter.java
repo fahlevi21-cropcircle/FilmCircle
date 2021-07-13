@@ -6,12 +6,14 @@ import android.util.Log;
 import androidx.databinding.DataBindingUtil;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemBigLinearBinding;
 import com.cropcircle.filmcircle.databinding.ItemCardBannerBinding;
 import com.cropcircle.filmcircle.databinding.ItemFavoriteMovieBinding;
+import com.cropcircle.filmcircle.databinding.ItemGenreGridBinding;
 import com.cropcircle.filmcircle.databinding.ItemImageSmallBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallGridBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallLinearBinding;
@@ -25,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder> {
+public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder> implements LoadMoreModule {
     private int viewType;
 
     public MovieAdapter(int layoutResId) {
@@ -89,6 +91,10 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
             binding.setData(movie);
             Constants constants = new Constants();
             binding.itemFavoriteDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
+            binding.executePendingBindings();
+        }else if (viewType == R.layout.item_genre_grid){
+            ItemGenreGridBinding binding = (ItemGenreGridBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(movie);
             binding.executePendingBindings();
         }
     }

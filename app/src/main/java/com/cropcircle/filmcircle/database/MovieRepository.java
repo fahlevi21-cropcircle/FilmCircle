@@ -98,11 +98,11 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
-    public LiveData<List<Movie>> getByGenre(int genreId) {
+    public LiveData<List<Movie>> getByGenre(int genreId, int page) {
         final String TAG = "Genre Movies";
         Map<String, String> map = new HashMap<>();
         map.put("sort_by", "popularity.desc");
-        map.put("vote_average.gte", "8");
+        map.put("page", String.valueOf(page));
         map.put("with_genres", String.valueOf(genreId));
         Call<Movies> call = service.discoverMovies(map);
         MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
