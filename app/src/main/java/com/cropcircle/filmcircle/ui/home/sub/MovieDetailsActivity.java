@@ -214,7 +214,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     String quot = " &rdquo; ";
                     String voteCount = movieDetails.getVoteCount() + " User(s)";
                     binding.layoutContent.movieDetailsVoteCount.setText(voteCount);
-                    if (movieDetails.getTagline() != null){
+                    if (movieDetails.getTagline() != null && !movieDetails.getTagline().trim().isEmpty()){
                         String tagline = quot + movieDetails.getTagline() + quot;
                         binding.layoutContent.movieDetailsTagline.setText(Html.fromHtml(tagline));
                         binding.layoutContent.movieDetailsTagline.setVisibility(View.VISIBLE);
