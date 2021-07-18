@@ -42,13 +42,15 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
 
     @Override
     protected void convert(@NotNull BaseDataBindingHolder baseDataBindingHolder, Movie movie) {
+        Constants constants = Constants.getInstance();
         if (viewType == R.layout.item_small_linear){
             ItemSmallLinearBinding binding = (ItemSmallLinearBinding) baseDataBindingHolder.getDataBinding();
+            binding.itemNewReleaseDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
             binding.setData(movie);
             if (movie.getVoteAverage() == 0.0){
                 binding.itemNewReleaseRating.setText(" unrated ");
             }else {
-                binding.itemNewReleaseRating.setText(movie.getVoteAverage().toString());
+                binding.itemNewReleaseRating.setText(movie.getVoteAverage().toString().substring(0,3));
             }
             binding.executePendingBindings();
         }else if (viewType == R.layout.item_small_grid){
@@ -65,6 +67,7 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
             binding.executePendingBindings();
         }else if (viewType == R.layout.item_small_vertical_movie){
             ItemSmallVerticalMovieBinding binding = (ItemSmallVerticalMovieBinding) baseDataBindingHolder.getDataBinding();
+            binding.itemSmallVerticalDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
             binding.setData(movie);
             List<Genre> genres = Constants.movieGenres;
             List<Genre> selectedGenres = new ArrayList<>();
@@ -89,7 +92,6 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
         }else if(viewType == R.layout.item_favorite_movie){
             ItemFavoriteMovieBinding binding = (ItemFavoriteMovieBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(movie);
-            Constants constants = new Constants();
             binding.itemFavoriteDate.setText(constants.simpleDateFormatter(movie.getReleaseDate()));
             binding.executePendingBindings();
         }else if (viewType == R.layout.item_genre_grid){

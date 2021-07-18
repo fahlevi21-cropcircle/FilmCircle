@@ -57,7 +57,7 @@
 
         "Within the material environment, virtual lights illuminate the scene. Key lights create "
         "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
+        "Shadows in the material environment are actors by these two light sources. In Android "
         "development, shadows occur when light sources are blocked by sheets of material at "
         "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
         "y-axis only. The following example shows the card with a height of 6dp.\n\n"

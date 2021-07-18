@@ -44,7 +44,6 @@
             android:id="@+id/item_new_release_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{data.releaseDate}"
             android:maxLines="1"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -67,7 +66,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="tes"
                 style="@style/Theme.Text.CardSubtitleTextAppearance"/>
         </LinearLayout>
 

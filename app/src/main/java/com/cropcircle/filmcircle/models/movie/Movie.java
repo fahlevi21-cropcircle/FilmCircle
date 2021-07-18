@@ -227,17 +227,15 @@ public class Movie extends AbstractItem<Movie, Movie.ViewHolder> {
 
     @BindingAdapter("android:loadMediumImage")
     public static void loadMediumImage(ImageView view, String image){
-        Glide.with(view).asBitmap().load(Constants.BACKDROP_PATH_780 + image).into(view);
+        Glide.with(view).load(Constants.BACKDROP_PATH_780 + image).placeholder(R.drawable.logo).error(R.drawable.noimg).into(view);
     }
 
     @BindingAdapter("android:loadSmallGridImage")
     public static void loadSmallGridImage(ImageView view, String image){
         if (image != null && image.toLowerCase().contains("https")){
-            Glide.with(view).asBitmap().load(image.substring(1)).override(150,120).into(view);
-        } else if (image == null){
-            Glide.with(view).asBitmap().load(R.drawable.ic_baseline_person).override(150,120).into(view);
+            Glide.with(view).asBitmap().load(image.substring(1)).placeholder(R.drawable.logo).error(R.drawable.noimg).into(view);
         } else {
-            Glide.with(view).asBitmap().load(Constants.IMG_PATH_500 + image).override(150,120).into(view);
+            Glide.with(view).asBitmap().load(Constants.IMG_PATH_500 + image).error(R.drawable.noimg).placeholder(R.drawable.logo).into(view);
         }
     }
 }

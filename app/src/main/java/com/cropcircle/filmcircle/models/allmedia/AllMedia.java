@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Result implements Comparable<Result> {
+public class AllMedia implements Comparable<AllMedia> {
 
     @SerializedName("poster_path")
     @Expose
@@ -69,7 +69,7 @@ public class Result implements Comparable<Result> {
      * No args constructor for use in serialization
      *
      */
-    public Result() {
+    public AllMedia() {
     }
 
     /**
@@ -94,7 +94,7 @@ public class Result implements Comparable<Result> {
      * @param adult
      * @param posterPath
      */
-    public Result(String posterPath, String firstAirDate, Double voteAverage, String originalName, List<String> originCountry, Integer id, String name, String backdropPath, Integer voteCount, List<Integer> genreIds, String overview, String originalLanguage, Double popularity, String mediaType, String originalTitle, Boolean video, String releaseDate, String title, Boolean adult) {
+    public AllMedia(String posterPath, String firstAirDate, Double voteAverage, String originalName, List<String> originCountry, Integer id, String name, String backdropPath, Integer voteCount, List<Integer> genreIds, String overview, String originalLanguage, Double popularity, String mediaType, String originalTitle, Boolean video, String releaseDate, String title, Boolean adult) {
         super();
         this.posterPath = posterPath;
         this.firstAirDate = firstAirDate;
@@ -270,7 +270,7 @@ public class Result implements Comparable<Result> {
     }
 
     @Override
-    public int compareTo(Result result) {
-        return this.popularity.compareTo(result.popularity);
+    public int compareTo(AllMedia allMedia) {
+        return this.popularity.compareTo(allMedia.popularity);
     }
 }

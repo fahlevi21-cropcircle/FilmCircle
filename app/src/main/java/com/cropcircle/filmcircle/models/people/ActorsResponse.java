@@ -1,17 +1,17 @@
-package com.cropcircle.filmcircle.models.allmedia;
+package com.cropcircle.filmcircle.models.people;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MediaResponse {
+public class ActorsResponse {
     @SerializedName("page")
     @Expose
     private Integer page;
     @SerializedName("results")
     @Expose
-    private List<AllMedia> allMedia = null;
+    private List<Actors> results = null;
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
@@ -23,7 +23,7 @@ public class MediaResponse {
      * No args constructor for use in serialization
      *
      */
-    public MediaResponse() {
+    public ActorsResponse() {
     }
 
     /**
@@ -31,12 +31,12 @@ public class MediaResponse {
      * @param totalResults
      * @param totalPages
      * @param page
-     * @param allMedia
+     * @param results
      */
-    public MediaResponse(Integer page, List<AllMedia> allMedia, Integer totalPages, Integer totalResults) {
+    public ActorsResponse(Integer page, List<Actors> results, Integer totalPages, Integer totalResults) {
         super();
         this.page = page;
-        this.allMedia = allMedia;
+        this.results = results;
         this.totalPages = totalPages;
         this.totalResults = totalResults;
     }
@@ -49,12 +49,12 @@ public class MediaResponse {
         this.page = page;
     }
 
-    public List<AllMedia> getResults() {
-        return allMedia;
+    public List<Actors> getResults() {
+        return results;
     }
 
-    public void setResults(List<AllMedia> allMedia) {
-        this.allMedia = allMedia;
+    public void setResults(List<Actors> results) {
+        this.results = results;
     }
 
     public Integer getTotalPages() {

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 public class GenreItemDecoration extends RecyclerView.ItemDecoration {
-    private int left,right,top,bottom;
+    private int left, right, top, bottom;
     private int paddingSize;
 
     public GenreItemDecoration(int left, int right, int top, int bottom, int paddingSize) {
@@ -29,9 +29,17 @@ public class GenreItemDecoration extends RecyclerView.ItemDecoration {
         outRect.left = left;
         outRect.right = right;
 
-        if (parent.getChildAdapterPosition(view) % 3 == 0){
+        if (parent.getChildAdapterPosition(view) == 0) {
+            outRect.top = 32;
+        } else if (parent.getChildAdapterPosition(view) == 1) {
+            outRect.top = 32;
+        } else if (parent.getChildAdapterPosition(view) == 2) {
+            outRect.top = 32;
+        }
+
+        if (parent.getChildAdapterPosition(view) % 3 == 0) {
             outRect.left = 32;
-        }else if (parent.getChildAdapterPosition(view) % 3 == 2){
+        } else if (parent.getChildAdapterPosition(view) % 3 == 2) {
             outRect.right = 32;
         }
     }

@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.cropcircle.filmcircle.models.allmedia.Result" />
+            type="com.cropcircle.filmcircle.models.allmedia.AllMedia" />
 
     </data>
 
@@ -50,7 +50,6 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@{data.releaseDate == null ? data.firstAirDate : data.releaseDate}"
                 style="@style/Theme.Text.CardSubtitleTextAppearance"/>
 
             <uz.jamshid.library.ExactRatingBar

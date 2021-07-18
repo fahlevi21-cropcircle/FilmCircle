@@ -2,12 +2,11 @@ package com.cropcircle.filmcircle.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.cropcircle.filmcircle.database.MediaTVRepository;
 import com.cropcircle.filmcircle.database.MovieRepository;
-import com.cropcircle.filmcircle.models.allmedia.Result;
+import com.cropcircle.filmcircle.models.allmedia.AllMedia;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.models.tv.MediaTV;
 
@@ -24,7 +23,7 @@ public class HomeViewModel extends ViewModel {
         tvRepository = new MediaTVRepository();
     }
 
-    public LiveData<List<Result>> trendingMovies() {
+    public LiveData<List<AllMedia>> trendingMovies() {
         return repository.trendingMovie();
     }
 
@@ -32,11 +31,11 @@ public class HomeViewModel extends ViewModel {
         return repository.nowPlaying();
     }
 
-    public LiveData<List<Result>> trendingTVs() {
+    public LiveData<List<AllMedia>> trendingTVs() {
         return repository.trendingTv();
     }
 
-    public LiveData<List<Result>> banners(){
+    public LiveData<List<AllMedia>> banners(){
         return repository.dailyTrendingAllMedia();
     }
 

@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.PreferenceManager;
 import com.cropcircle.filmcircle.databinding.ActivityMovieDetailsBinding;
@@ -22,6 +27,7 @@ import com.cropcircle.filmcircle.models.action.OnAccountStatesResponse;
 import com.cropcircle.filmcircle.models.action.OnActionResponse;
 import com.cropcircle.filmcircle.models.movie.Backdrop;
 import com.cropcircle.filmcircle.models.movie.Genre;
+import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.models.movie.MovieDetails;
 
 import androidx.annotation.NonNull;
@@ -35,18 +41,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.models.movie.Video;
-import com.cropcircle.filmcircle.models.people.Cast;
+import com.cropcircle.filmcircle.models.people.Actors;
 import com.cropcircle.filmcircle.models.review.Review;
-import com.cropcircle.filmcircle.models.user.User;
-import com.cropcircle.filmcircle.ui.home.adapter.GenreAdapter;
+import com.cropcircle.filmcircle.ui.auth.AuthActivity;
 import com.cropcircle.filmcircle.ui.home.adapter.ImageAdapter;
+import com.cropcircle.filmcircle.ui.home.adapter.MovieAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.ReviewAdapter;
 import com.cropcircle.filmcircle.ui.home.adapter.VideoAdapter;
+import com.cropcircle.filmcircle.ui.home.itemdecoration.ActorsItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.HorizontalItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.ImageGridItemDecoration;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.VerticalItemDecoration;
+import com.google.android.material.chip.Chip;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     ActivityMovieDetailsBinding binding;
@@ -54,6 +65,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     PreferenceManager manager;
     private Menu menu;
     int movieId;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +97,29 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (isNetworkConnected()){
-            hideErrorPage();
-            observeMovieDetails();
-        }else {
-            errorShowNetworkError();
-        }
+        binding.layoutContent.movieDetailsOverviewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isAdvancedDetailsShown()){
+                    hideAdvancedDetails();
+                }else {
+                    showAdvancedDetails();
+                }
+            }
+        });
+
+        binding.layoutContent.movieDetailsOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isAdvancedDetailsShown()){
+                    hideAdvancedDetails();
+                }else {
+                    showAdvancedDetails();
+                }
+            }
+        });
+
+        initTimer();
     }
 
     @Override
@@ -146,27 +175,58 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void initTimer(){
+        timer = new CountDownTimer(10000, 1000){
+
+            @Override
+            public void onTick(long l) {
+                checkConnection();
+            }
+
+            @Override
+            public void onFinish() {
+                //show error connection view
+                errorShowNetworkError();
+                Toast.makeText(MovieDetailsActivity.this, "Network Unavailable!", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        timer.start();
+    }
+
+    private void checkConnection(){
+        if (isNetworkConnected()){
+            observeMovieDetails();
+            timer.cancel();
+        }
+    }
+
     private void observeMovieDetails(){
         viewModel.setMovieId(movieId);
         viewModel.getDetails().observe(this, new Observer<MovieDetails>() {
             @Override
             public void onChanged(MovieDetails movieDetails) {
                 if (movieDetails != null){
+                    binding.movieDetailsLoading.setVisibility(View.GONE);
                     binding.setData(movieDetails);
+                    initAdvancedDetails(movieDetails);
                     binding.layoutContent.movieDetailsRating.setStar(movieDetails.getVoteAverage().floatValue() - 5.0f);
-                    String bullet = " &bull; ";
+                    String quot = " &rdquo; ";
                     String voteCount = movieDetails.getVoteCount() + " User(s)";
                     binding.layoutContent.movieDetailsVoteCount.setText(voteCount);
                     if (movieDetails.getTagline() != null){
-                        //String tagline = "' " + movieDetails.getTagline() + " '";
-                        binding.layoutContent.movieDetailsTagline.setText(movieDetails.getTagline());
+                        String tagline = quot + movieDetails.getTagline() + quot;
+                        binding.layoutContent.movieDetailsTagline.setText(Html.fromHtml(tagline));
                         binding.layoutContent.movieDetailsTagline.setVisibility(View.VISIBLE);
                     }else{
                         binding.layoutContent.movieDetailsTagline.setVisibility(View.GONE);
                     }
-                    String releaseYearText = movieDetails.getReleaseDate().substring(0,4) + bullet;
-                    String durationText = bullet + movieDetails.getRuntime().toString() + " Minutes";
-                    getMovieGenres(movieDetails.getGenres());
+
+                    if (movieDetails.getGenres().size() >= 3){
+                        getMovieGenres(movieDetails.getGenres().subList(0,3));
+                    }else {
+                        getMovieGenres(movieDetails.getGenres());
+                    }
                 }
             }
         });
@@ -176,7 +236,89 @@ public class MovieDetailsActivity extends AppCompatActivity {
         getMovieImages();
         getMovieVideos();
         getMovieStates();
+        getRecommendedMovies();
+        getSimilarMovies();
         //prepareTabs();
+    }
+
+    private void initAdvancedDetails(MovieDetails movieDetails){
+        if (movieDetails.getOriginalTitle() != null){
+            binding.layoutContent.movieDetailsMoreOriginalTitle.setText(movieDetails.getOriginalTitle());
+        }else {
+            binding.layoutContent.movieDetailsMoreOriginalTitle.setText("No information");
+        }
+
+        if (movieDetails.getReleaseDate() != null){
+            binding.layoutContent.movieDetailsMoreDate.setText(Constants.getInstance().simpleDateFormatter(movieDetails.getReleaseDate()));
+        }else {
+            binding.layoutContent.movieDetailsMoreDate.setText("No information");
+        }
+
+        if (movieDetails.getStatus() != null){
+            binding.layoutContent.movieDetailsStatus.setText(movieDetails.getStatus());
+        }else {
+            binding.layoutContent.movieDetailsStatus.setText("No information");
+        }
+
+        if (!movieDetails.getHomepage().isEmpty()){
+            binding.layoutContent.movieDetailsHomepage.setText(movieDetails.getHomepage());
+            binding.layoutContent.movieDetailsHomepage.setTextColor(getResources().getColor(R.color.primaryLightColor));
+            binding.layoutContent.movieDetailsHomepage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri link = Uri.parse(movieDetails.getHomepage());
+                    startActivity(new Intent(Intent.ACTION_VIEW, link));
+                }
+            });
+        }else {
+            binding.layoutContent.movieDetailsHomepage.setText("No information");
+        }
+
+        if (movieDetails.getGenres() != null && movieDetails.getGenres().size() > 0){
+            for (int i = 0; i < movieDetails.getGenres().size(); i++){
+                Chip chip = new Chip(this);
+                chip.setText(movieDetails.getGenres().get(i).getName());
+                //chip.setLeft(16);
+                chip.setRight(16);
+                binding.layoutContent.movieDetailsMoreGenre.addView(chip);
+            }
+        }else {
+            binding.layoutContent.movieDetailsMoreGenre.setVisibility(View.GONE);
+        }
+
+        if (movieDetails.getProductionCompanies() != null && movieDetails.getProductionCompanies().size() > 0){
+            ProductionCompanyAdapter adapter = new ProductionCompanyAdapter(R.layout.item_production_company);
+            binding.layoutContent.movieDetailsMoreProductionCompany.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            binding.layoutContent.movieDetailsMoreProductionCompany.setHasFixedSize(true);
+            binding.layoutContent.movieDetailsMoreProductionCompany.addItemDecoration(new ActorsItemDecoration(16));
+            binding.layoutContent.movieDetailsMoreProductionCompany.setAdapter(adapter);
+            adapter.setList(movieDetails.getProductionCompanies());
+        }else {
+            binding.layoutContent.movieDetailsMoreCompLabel.setVisibility(View.GONE);
+        }
+
+        if (movieDetails.getRuntime() != null){
+            Constants constants = Constants.getInstance();
+            binding.layoutContent.movieDetailsRuntime.setText(constants.simpleDurationFormatter(movieDetails.getRuntime()));
+        }else{
+            binding.layoutContent.movieDetailsRuntime.setText("No information");
+        }
+    }
+
+    private void showAdvancedDetails(){
+        binding.layoutContent.movieDetailsOverview.setMaxLines(100);
+        binding.layoutContent.movieDetailsAdvancedInfoContainer.setVisibility(View.VISIBLE);
+        binding.layoutContent.movieDetailsOverviewMore.setText("less information");
+    }
+
+    private void hideAdvancedDetails(){
+        binding.layoutContent.movieDetailsOverview.setMaxLines(6);
+        binding.layoutContent.movieDetailsAdvancedInfoContainer.setVisibility(View.GONE);
+        binding.layoutContent.movieDetailsOverviewMore.setText("more information");
+    }
+
+    private boolean isAdvancedDetailsShown(){
+        return binding.layoutContent.movieDetailsAdvancedInfoContainer.getVisibility() == View.VISIBLE;
     }
 
     private void getMovieGenres(List<Genre> genreList){
@@ -194,15 +336,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
         CastRecyclerViewAdapter adapter = new CastRecyclerViewAdapter(R.layout.item_caster);
         binding.layoutContent.movieDetailsCastRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.layoutContent.movieDetailsCastRc.setHasFixedSize(true);
-        binding.layoutContent.movieDetailsCastRc.addItemDecoration(new HorizontalItemDecoration(8,8,0,0, 16));
-        viewModel.getCasters().observe(this, new Observer<List<Cast>>() {
+        binding.layoutContent.movieDetailsCastRc.addItemDecoration(new ActorsItemDecoration(16));
+        viewModel.getCasters().observe(this, new Observer<List<Actors>>() {
             @Override
-            public void onChanged(List<Cast> casts) {
-                if (casts != null && casts.size() > 0){
-                    if (casts.size() >= 8){
-                        adapter.setList(casts.subList(0, 8));
+            public void onChanged(List<Actors> actors) {
+                if (actors != null && actors.size() > 0){
+                    if (actors.size() >= 8){
+                        adapter.setList(actors.subList(0, 8));
                     }else {
-                        adapter.setList(casts);
+                        adapter.setList(actors);
                     }
                     binding.layoutContent.movieDetailsCastRc.setAdapter(adapter);
                 }
@@ -275,6 +417,78 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     }else {
                         adapter.setList(videos);
                     }
+                }
+            }
+        });
+    }
+
+    private void getSimilarMovies(){
+        MovieAdapter newReleaseAdapter = new MovieAdapter(R.layout.item_small_linear);
+        binding.layoutContent.movieDetailsSimilarRc.setHasFixedSize(true);
+        binding.layoutContent.movieDetailsSimilarRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.layoutContent.movieDetailsSimilarRc.setAdapter(newReleaseAdapter);
+        binding.layoutContent.movieDetailsSimilarRc.addItemDecoration(new HorizontalItemDecoration(8, 32, 8, 8, 16));
+        newReleaseAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                Movie data = (Movie) adapter.getItem(position);
+                Intent intent = new Intent(MovieDetailsActivity.this, MovieDetailsActivity.class);
+                intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
+                startActivity(intent);
+            }
+        });
+
+        viewModel.getSimilar().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                if(movies != null && movies.size() > 0){
+                    Comparator<Movie> comparator = new Comparator<Movie>() {
+                        @Override
+                        public int compare(Movie movie, Movie t1) {
+                            return movie.getPopularity().compareTo(t1.getPopularity());
+                        }
+                    };
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(movies, comparator.reversed());
+                    }
+                    newReleaseAdapter.setList(movies);
+                }
+            }
+        });
+    }
+
+    private void getRecommendedMovies(){
+        MovieAdapter newReleaseAdapter = new MovieAdapter(R.layout.item_small_linear);
+        binding.layoutContent.movieDetailsRecommendedRc.setHasFixedSize(true);
+        binding.layoutContent.movieDetailsRecommendedRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.layoutContent.movieDetailsRecommendedRc.setAdapter(newReleaseAdapter);
+        binding.layoutContent.movieDetailsRecommendedRc.addItemDecoration(new HorizontalItemDecoration(8, 32, 8, 8, 16));
+        newReleaseAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                Movie data = (Movie) adapter.getItem(position);
+                Intent intent = new Intent(MovieDetailsActivity.this, MovieDetailsActivity.class);
+                intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
+                startActivity(intent);
+            }
+        });
+
+        viewModel.getRecommended().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                if(movies != null && movies.size() > 0){
+                    Comparator<Movie> comparator = new Comparator<Movie>() {
+                        @Override
+                        public int compare(Movie movie, Movie t1) {
+                            return movie.getPopularity().compareTo(t1.getPopularity());
+                        }
+                    };
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(movies, comparator.reversed());
+                    }
+                    newReleaseAdapter.setList(movies);
                 }
             }
         });

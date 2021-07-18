@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.cropcircle.filmcircle.models.allmedia.Result" />
+            type="com.cropcircle.filmcircle.models.allmedia.AllMedia" />
 
     </data>
 
@@ -85,7 +85,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@{data.releaseDate == null ? data.firstAirDate : data.releaseDate}"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?attr/colorOnPrimary" />
 

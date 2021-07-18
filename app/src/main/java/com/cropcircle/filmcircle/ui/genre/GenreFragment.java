@@ -3,6 +3,7 @@ package com.cropcircle.filmcircle.ui.genre;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,14 +13,20 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.GenreFragmentBinding;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.ui.home.adapter.MovieAdapter;
+import com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -80,6 +87,7 @@ public class GenreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
 
         adapter = new MovieAdapter(R.layout.item_genre_grid);
 
@@ -87,7 +95,7 @@ public class GenreFragment extends Fragment {
         adapter.setDiffCallback(new DiffUtil.ItemCallback<Movie>() {
             @Override
             public boolean areItemsTheSame(@NonNull @NotNull Movie oldItem, @NonNull @NotNull Movie newItem) {
-                return oldItem.getId() == newItem.getId();
+                return oldItem.getId().equals(newItem.getId());
             }
 
             @Override
@@ -98,7 +106,15 @@ public class GenreFragment extends Fragment {
         adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                nextPage();
                 observe();
+            }
+        });
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                Movie movie = (Movie) adapter.getData().get(position);
+                startActivity(new Intent(getContext(), MovieDetailsActivity.class).putExtra(Constants.MOVIE_ID_KEY, movie.getId()));
             }
         });
 
@@ -110,23 +126,28 @@ public class GenreFragment extends Fragment {
         observe();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     private void observe() {
         adapter.getLoadMoreModule().setEnableLoadMore(false);
+        adapter.getLoadMoreModule().isLoading();
         mViewModel.getMovies(page).observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 if (movies != null && movies.size() > 0) {
-                    adapter.getLoadMoreModule().setEnableLoadMore(true);
                     if (isFirstPage()) {
                         adapter.setList(movies);
                     } else {
                         adapter.addData(movies);
                     }
                     adapter.getLoadMoreModule().loadMoreComplete();
+                    adapter.getLoadMoreModule().setEnableLoadMore(true);
                 }
             }
         });
-        nextPage();
     }
 
     private void nextPage() {

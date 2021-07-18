@@ -35,6 +35,8 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
             outRect.left = 46;
         } else if (parent.getChildAdapterPosition(view) == 0 && paddingSize == 32) {
             outRect.left = 82;
+        } else if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1 && paddingSize == 16){
+            outRect.right = 46;
         }
     }
 }

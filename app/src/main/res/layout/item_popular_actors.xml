@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.people.Actors" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="150dp"
+        android:layout_height="270dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_popular_actor_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="215dp"
+            app:riv_corner_radius="8dp"
+            android:src="@drawable/logo"
+            android:scaleType="fitXY" />
+
+        <View
+            app:layout_constraintStart_toStartOf="@id/item_popular_actor_image"
+            app:layout_constraintTop_toTopOf="@id/item_popular_actor_image"
+            app:layout_constraintBottom_toBottomOf="@id/item_popular_actor_image"
+            app:layout_constraintEnd_toEndOf="@id/item_popular_actor_image"
+            android:id="@+id/item_slider_fade_bg"
+            android:layout_width="match_parent"
+            android:layout_height="215dp"
+            android:background="@drawable/fade_background" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/item_popular_actor_image">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_favorite" />
+
+            <TextView
+                android:id="@+id/item_popular_actor_popularity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{data.popularity.toString()}"
+                android:textAppearance="?attr/textAppearanceSubtitle2"
+                android:textColor="?attr/colorOnPrimary" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_popular_actor_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_popular_actor_image"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.name}"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            android:textStyle="bold"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

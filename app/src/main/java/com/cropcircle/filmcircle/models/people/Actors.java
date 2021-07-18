@@ -1,9 +1,12 @@
 package com.cropcircle.filmcircle.models.people;
 
+import com.cropcircle.filmcircle.models.allmedia.AllMedia;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cast {
+import java.util.List;
+
+public class Actors {
     @SerializedName("adult")
     @Expose
     private Boolean adult;
@@ -13,6 +16,9 @@ public class Cast {
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("known_for")
+    @Expose
+    private List<AllMedia> knownFor = null;
     @SerializedName("known_for_department")
     @Expose
     private String knownForDepartment;
@@ -27,7 +33,7 @@ public class Cast {
     private Double popularity;
     @SerializedName("profile_path")
     @Expose
-    private Object profilePath;
+    private String profilePath;
     @SerializedName("cast_id")
     @Expose
     private Integer castId;
@@ -45,7 +51,7 @@ public class Cast {
      * No args constructor for use in serialization
      *
      */
-    public Cast() {
+    public Actors() {
     }
 
     /**
@@ -63,11 +69,12 @@ public class Cast {
      * @param adult
      * @param order
      */
-    public Cast(Boolean adult, Integer gender, Integer id, String knownForDepartment, String name, String originalName, Double popularity, Object profilePath, Integer castId, String character, String creditId, Integer order) {
+    public Actors(Boolean adult, Integer gender, Integer id, List<AllMedia> knownFor, String knownForDepartment, String name, String originalName, Double popularity, String profilePath, Integer castId, String character, String creditId, Integer order) {
         super();
         this.adult = adult;
         this.gender = gender;
         this.id = id;
+        this.knownFor = knownFor;
         this.knownForDepartment = knownForDepartment;
         this.name = name;
         this.originalName = originalName;
@@ -103,6 +110,14 @@ public class Cast {
         this.id = id;
     }
 
+    public List<AllMedia> getKnownFor() {
+        return knownFor;
+    }
+
+    public void setKnownFor(List<AllMedia> knownFor) {
+        this.knownFor = knownFor;
+    }
+
     public String getKnownForDepartment() {
         return knownForDepartment;
     }
@@ -135,11 +150,11 @@ public class Cast {
         this.popularity = popularity;
     }
 
-    public Object getProfilePath() {
+    public String getProfilePath() {
         return profilePath;
     }
 
-    public void setProfilePath(Object profilePath) {
+    public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
     }
 

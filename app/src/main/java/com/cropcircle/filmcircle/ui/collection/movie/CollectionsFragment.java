@@ -1,5 +1,6 @@
 package com.cropcircle.filmcircle.ui.collection.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,13 +17,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.PreferenceManager;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.FragmentCollectionsBinding;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.ui.home.adapter.MovieAdapter;
 import com.cropcircle.filmcircle.ui.home.itemdecoration.GridItemDecoration;
+import com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity;
 import com.google.android.material.tabs.TabLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -72,6 +79,13 @@ public class CollectionsFragment extends Fragment implements TabLayout.OnTabSele
 
     private void observeFavorite(){
         MovieAdapter adapter = new MovieAdapter(R.layout.item_favorite_movie);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                Movie movie = (Movie) adapter.getData().get(position);
+                startActivity(new Intent(getContext(), MovieDetailsActivity.class).putExtra(Constants.MOVIE_ID_KEY, movie.getId()));
+            }
+        });
         binding.rcCollectionsFavorite.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rcCollectionsFavorite.setAdapter(adapter);
         viewModel.getFavoriteMovieList(manager.getUserdata().getId(), manager.getSessionId()).observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {

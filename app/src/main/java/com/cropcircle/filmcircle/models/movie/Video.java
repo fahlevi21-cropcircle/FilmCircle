@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.cropcircle.filmcircle.Constants;
+import com.cropcircle.filmcircle.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -131,6 +132,9 @@ public class Video {
     public static void loadVideoImage(ImageView view, String url) {
         Glide.with(view)
                 .asBitmap()
-                .load(Constants.VIDEO_THUMB + url + Constants.THUMB_DEFAULT_RESOLUTION).into(view);
+                .load(Constants.VIDEO_THUMB + url + Constants.THUMB_DEFAULT_RESOLUTION)
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.noimg)
+                .into(view);
     }
 }

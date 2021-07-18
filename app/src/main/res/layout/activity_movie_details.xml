@@ -52,6 +52,14 @@
             layout="@layout/layout_movie_details_body"
             binding:data="@{data}" />
 
+        <ProgressBar
+            android:id="@+id/movieDetailsLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.CircularProgressIndicator"/>
+
         <include
             android:id="@+id/layout_empty"
             layout="@layout/layout_empty_states"

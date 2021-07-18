@@ -6,49 +6,42 @@
     <data>
         <variable
             name="data"
-            type="com.cropcircle.filmcircle.models.people.Cast" />
+            type="com.cropcircle.filmcircle.models.people.Actors" />
 
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_cast_avatar"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             app:civ_border_width="0dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/item_cast_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:maxWidth="65dp"
             android:layout_marginTop="16dp"
             android:maxLines="2"
-            android:ellipsize="end"
             android:gravity="center"
+            android:ellipsize="end"
             android:textStyle="bold"
             android:text="@{data.name}" />
 
         <TextView
             android:id="@+id/item_cast_character"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:maxLines="2"
-            android:maxWidth="65dp"
             android:ellipsize="end"
-            android:layout_marginTop="8dp"
             android:gravity="center"
+            android:layout_marginTop="8dp"
             android:textAppearance="?attr/textAppearanceCaption"
             android:text="@{data.character}" />
     </LinearLayout>

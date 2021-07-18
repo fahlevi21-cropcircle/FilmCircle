@@ -11,7 +11,7 @@ import com.cropcircle.filmcircle.models.action.ActionResponse;
 import com.cropcircle.filmcircle.models.action.OnAccountStatesResponse;
 import com.cropcircle.filmcircle.models.action.OnActionResponse;
 import com.cropcircle.filmcircle.models.allmedia.MediaResponse;
-import com.cropcircle.filmcircle.models.allmedia.Result;
+import com.cropcircle.filmcircle.models.allmedia.AllMedia;
 import com.cropcircle.filmcircle.models.auth.OnRequestTokenResponse;
 import com.cropcircle.filmcircle.models.auth.RequestToken;
 import com.cropcircle.filmcircle.models.auth.SessionId;
@@ -22,8 +22,6 @@ import com.cropcircle.filmcircle.models.movie.MovieDetails;
 import com.cropcircle.filmcircle.models.movie.MovieVideos;
 import com.cropcircle.filmcircle.models.movie.Movies;
 import com.cropcircle.filmcircle.models.movie.Video;
-import com.cropcircle.filmcircle.models.tv.MediaTV;
-import com.cropcircle.filmcircle.models.tv.ResultTV;
 import com.cropcircle.filmcircle.models.user.OnUserDetailsResponse;
 import com.cropcircle.filmcircle.models.user.User;
 
@@ -128,11 +126,11 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
-    public LiveData<List<Result>> dailyTrendingAllMedia() {
+    public LiveData<List<AllMedia>> dailyTrendingAllMedia() {
         final String TAG = "Trending All";
         Call<MediaResponse> call = service.trending("all", "day");
 
-        MutableLiveData<List<Result>> mutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<AllMedia>> mutableLiveData = new MutableLiveData<>();
 
         call.enqueue(new Callback<MediaResponse>() {
             @Override
@@ -209,11 +207,11 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
-    public LiveData<List<Result>> trendingTv() {
+    public LiveData<List<AllMedia>> trendingTv() {
         final String TAG = "Trending";
         Call<MediaResponse> call = service.trending("tv", "week");
 
-        MutableLiveData<List<Result>> mutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<AllMedia>> mutableLiveData = new MutableLiveData<>();
 
         call.enqueue(new Callback<MediaResponse>() {
             @Override
@@ -236,11 +234,11 @@ public class MovieRepository {
         return mutableLiveData;
     }
 
-    public LiveData<List<Result>> trendingMovie() {
+    public LiveData<List<AllMedia>> trendingMovie() {
         final String TAG = "Trending";
         Call<MediaResponse> call = service.trending("movie", "week");
 
-        MutableLiveData<List<Result>> mutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<AllMedia>> mutableLiveData = new MutableLiveData<>();
 
         call.enqueue(new Callback<MediaResponse>() {
             @Override

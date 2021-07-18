@@ -6,10 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cropcircle.filmcircle.models.movie.MovieCredits;
-import com.cropcircle.filmcircle.models.people.Cast;
+import com.cropcircle.filmcircle.models.people.Actors;
 import com.cropcircle.filmcircle.models.review.Review;
 import com.cropcircle.filmcircle.models.review.Reviews;
-import com.cropcircle.filmcircle.response.OnMovieDetailsCreditsResponse;
 
 import java.util.List;
 
@@ -25,10 +24,10 @@ public class MovieDetailsRepository {
         service = network.createService().create(MovieDetailService.class);
     }
 
-    public LiveData<List<Cast>> getMovieCasters(int movieId){
+    public LiveData<List<Actors>> getMovieCasters(int movieId){
         final String TAG = "movie credits";
         Call<MovieCredits> call = service.getMovieCredits(movieId);
-        MutableLiveData<List<Cast>> mutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<Actors>> mutableLiveData = new MutableLiveData<>();
         call.enqueue(new Callback<MovieCredits>() {
             @Override
             public void onResponse(Call<MovieCredits> call, Response<MovieCredits> response) {

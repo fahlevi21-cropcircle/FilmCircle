@@ -30,6 +30,7 @@
             <com.zhpan.bannerview.BannerViewPager
                 android:id="@+id/home_slider"
                 android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
                 android:layout_height="260dp"
                 android:nestedScrollingEnabled="false"
                 app:bvp_indicator_checked_color="?attr/colorPrimary"
@@ -42,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/listDivider" />
 
@@ -60,9 +61,8 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/rubik"
                     android:text="This Week's top movies"
-                    android:textSize="18sp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textStyle="bold" />
 
                 <TextView
@@ -70,8 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:text="See All"
-                    android:textColor="?attr/colorPrimary" />
+                    android:text="See All" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

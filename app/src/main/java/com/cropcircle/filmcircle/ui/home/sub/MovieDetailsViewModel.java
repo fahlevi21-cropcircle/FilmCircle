@@ -14,7 +14,7 @@ import com.cropcircle.filmcircle.models.movie.Backdrop;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.models.movie.MovieDetails;
 import com.cropcircle.filmcircle.models.movie.Video;
-import com.cropcircle.filmcircle.models.people.Cast;
+import com.cropcircle.filmcircle.models.people.Actors;
 import com.cropcircle.filmcircle.models.review.Review;
 
 import java.util.List;
@@ -62,6 +62,7 @@ public class MovieDetailsViewModel extends ViewModel {
         repository.addToFavorites(sessionId,"movie", mediaId, true, userId, onActionResponse);
     }
 
+    @Deprecated
     public void removeFromFavorites(String sessionId, Integer mediaId,
                                @Nullable Integer userId, OnActionResponse onActionResponse){
         repository.addToFavorites(sessionId,"movie", mediaId, false, userId, onActionResponse);
@@ -71,7 +72,7 @@ public class MovieDetailsViewModel extends ViewModel {
         repository.getAccountStates(movieId, sessionId, onAccountStatesResponse);
     }
 
-    public LiveData<List<Cast>> getCasters(){
+    public LiveData<List<Actors>> getCasters(){
         return Transformations.switchMap(movieIdLiveData, id -> movieDetailsRepository.getMovieCasters(id));
     }
 }

@@ -95,6 +95,13 @@ public class Constants {
         return simpleDateFormat.format(date1.getTime());
     }
 
+    public String simpleDurationFormatter(int duration){
+        int hours = duration / 60;
+        int minutes = duration % 60;
+
+        return hours + "h " + minutes + "m ";
+    }
+
 
     /*used for fastadapter livedata DiffUtil.DiffResult diffResult = FastAdapterDiffUtil.calculateDiff(newReleaseAdapter, movies);
                 FastAdapterDiffUtil.set(newReleaseAdapter, diffResult);*/

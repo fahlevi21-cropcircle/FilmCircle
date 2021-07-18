@@ -29,7 +29,7 @@ public class VerticalItemDecoration extends RecyclerView.ItemDecoration {
         outRect.bottom = bottomSize;
 
         if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = 16;
+            outRect.top = 56;
         }
     }
 }

@@ -38,6 +38,8 @@ public class AuthActivity extends AppCompatActivity {
 
     private ActivityAuthBinding binding;
     private AuthViewModel viewModel;
+    private CountDownTimer timer;
+    private MovieAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
+        adapter = new MovieAdapter(R.layout.item_image_small);
         binding.loginRc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.loginRc.addItemDecoration(new HorizontalItemDecoration(8, 8, 8, 8, 32));
         binding.loginRc.setHasFixedSize(true);
@@ -71,52 +74,46 @@ public class AuthActivity extends AppCompatActivity {
                 Toast.makeText(AuthActivity.this, "Implemented soon!", Toast.LENGTH_SHORT).show();
             }
         });
-        MovieAdapter adapter = new MovieAdapter(R.layout.item_image_small);
         binding.loginRc.setAdapter(adapter);
-
-        if (isNetworkConnected()){
-            viewModel.getPopularMovies().observe(this, new Observer<List<Movie>>() {
-                @Override
-                public void onChanged(List<Movie> movies) {
-                    if (movies != null && movies.size() > 0){
-                        Toast.makeText(AuthActivity.this, "Size " + movies.size(), Toast.LENGTH_SHORT).show();
-                        binding.authProgressbar.setVisibility(View.GONE);
-                        adapter.setList(movies.subList(0,5));
-                    }
-                }
-            });
-        }else {
-            new CountDownTimer(5000, 1000){
-
-                @Override
-                public void onTick(long l) {
-                    viewModel.getPopularMovies().observe(AuthActivity.this, new Observer<List<Movie>>() {
-                        @Override
-                        public void onChanged(List<Movie> movies) {
-                            if (movies != null && movies.size() > 0){
-                                binding.authProgressbar.setVisibility(View.GONE);
-                                adapter.setList(movies);
-                            }else {
-                                binding.authProgressbar.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onFinish() {
-                    binding.authProgressbar.setVisibility(View.GONE);
-                    Toast.makeText(AuthActivity.this, "Network Unavailable!", Toast.LENGTH_SHORT).show();
-                }
-            }.start();
-        }
-
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Authenticate();
             }
         });
+        initTimer();
+    }
+
+    private void initTimer(){
+        timer = new CountDownTimer(5000, 1000){
+
+            @Override
+            public void onTick(long l) {
+                checkConnection();
+            }
+
+            @Override
+            public void onFinish() {
+                binding.authProgressbar.setVisibility(View.GONE);
+                Toast.makeText(AuthActivity.this, "Network Unavailable!", Toast.LENGTH_SHORT).show();
+            }
+        };
+        timer.start();
+    }
+
+    private void checkConnection(){
+        if (isNetworkConnected()){
+            timer.cancel();
+            viewModel.getPopularMovies().observe(this, new Observer<List<Movie>>() {
+                @Override
+                public void onChanged(List<Movie> movies) {
+                    if (movies != null && movies.size() > 0){
+                        binding.authProgressbar.setVisibility(View.GONE);
+                        adapter.setList(movies.subList(0,5));
+                    }
+                }
+            });
+        }
     }
 
     private boolean isNetworkConnected(){

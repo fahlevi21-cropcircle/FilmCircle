@@ -7,6 +7,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,12 +26,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.PreferenceManager;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.FragmentHomeBinding;
-import com.cropcircle.filmcircle.models.allmedia.Result;
+import com.cropcircle.filmcircle.models.allmedia.AllMedia;
 import com.cropcircle.filmcircle.models.movie.Movie;
 import com.cropcircle.filmcircle.models.tv.MediaTV;
 import com.cropcircle.filmcircle.ui.home.adapter.AllMediaAdapter;
@@ -43,7 +43,6 @@ import com.cropcircle.filmcircle.ui.home.itemdecoration.VerticalItemDecoration;
 import com.cropcircle.filmcircle.ui.home.sub.MediaTVDetailsActivity;
 import com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +51,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private CountDownTimer timer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,37 +80,67 @@ public class HomeFragment extends Fragment {
             binding.layoutDiscover.sessionIdDummy.setText(sessionId);
         }
         binding.layoutDiscover.sessionIdDummy.setVisibility(View.GONE);
-        showLoading();
-        observeData();
 
         binding.layoutEmpty.emptyRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                observeData();
+                timer.start();
             }
         });
-    }
 
-    private void observeData(){
-        binding.layoutEmpty.emptyRefresh.setRefreshing(false);
-        if (isNetworkConnected()){
-            hideErrorPage();
-            setupSlider();
-            setupPopularMovies();
-            setupTrendingMovie();
-            setupTrendingTV();
-            setupPopularTV();
-            setupUpcoming();
-            setupNowPlaying();
-        }else {
-            errorShowNetworkError();
-        }
+        /* Using below timeout timer method to avoid recyclerview multiply margins */
+
+        //init timeout for connections
+        initTimer();
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_home, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void initTimer(){
+        //init timer is used to set timeout for slow network or fetch data from internet with no
+        //network within 10 seconds (10000 millis)
+        timer = new CountDownTimer(10000, 1000){
+
+            @Override
+            public void onTick(long l) {
+                //showing loading while checking network connection in background
+                showLoading();
+                checkConnection();
+            }
+
+            @Override
+            public void onFinish() {
+                hideLoading();
+                errorShowNetworkError();
+                Toast.makeText(getContext(), "Network Unavailable!", Toast.LENGTH_SHORT).show();
+            }
+        };
+        timer.start();
+    }
+
+    private void checkConnection(){
+        //if network connected show data else do nothing while not connected
+        if (isNetworkConnected()){
+            hideErrorPage();
+            observeData();
+            //stop the timer
+            timer.cancel();
+        }
+    }
+
+    private void observeData(){
+        binding.layoutEmpty.emptyRefresh.setRefreshing(false);
+        setupSlider();
+        setupPopularMovies();
+        setupTrendingMovie();
+        setupTrendingTV();
+        setupPopularTV();
+        setupUpcoming();
+        setupNowPlaying();
     }
 
     private void setupNowPlaying(){
@@ -121,7 +151,9 @@ public class HomeFragment extends Fragment {
         homeViewModel.nowPlaying().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                binding.layoutDiscover.homeRcNowPlaying.create(movies);
+                if (movies != null && movies.size() > 0){
+                    binding.layoutDiscover.homeRcNowPlaying.create(movies);
+                }
             }
         });
     }
@@ -132,11 +164,13 @@ public class HomeFragment extends Fragment {
         binding.layoutDiscover.homeRcNowPlaying.setOffScreenPageLimit(3);
         binding.layoutDiscover.homeSlider.setIndicatorSliderGap(6);
         binding.layoutDiscover.homeSlider.setLifecycleRegistry(getLifecycle());
-        homeViewModel.banners().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
+        homeViewModel.banners().observe(getViewLifecycleOwner(), new Observer<List<AllMedia>>() {
             @Override
-            public void onChanged(List<Result> results) {
-                Collections.sort(results);
-                binding.layoutDiscover.homeSlider.create(results.subList(0,9));
+            public void onChanged(List<AllMedia> allMedia) {
+                if (allMedia != null && allMedia.size() > 0){
+                    Collections.sort(allMedia);
+                    binding.layoutDiscover.homeSlider.create(allMedia.subList(0,9));
+                }
             }
         });
     }
@@ -150,20 +184,16 @@ public class HomeFragment extends Fragment {
         trendingAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Result data = (Result) adapter.getItem(position);
-                if (data.getMediaType().toLowerCase().contains("movie")){
-                    Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
-                    intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(getContext(), "TV Media Type", Toast.LENGTH_SHORT).show();
-                }
+                AllMedia data = (AllMedia) adapter.getItem(position);
+                Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+                intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
+                startActivity(intent);
             }
         });
 
-        homeViewModel.trendingMovies().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
+        homeViewModel.trendingMovies().observe(getViewLifecycleOwner(), new Observer<List<AllMedia>>() {
             @Override
-            public void onChanged(List<Result> movies) {
+            public void onChanged(List<AllMedia> movies) {
                 if (movies != null && movies.size()> 0){
                     hideLoading();
                     Collections.sort(movies, Collections.reverseOrder());
@@ -301,7 +331,7 @@ public class HomeFragment extends Fragment {
         tvTrendingAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Result data = (Result) adapter.getItem(position);
+                AllMedia data = (AllMedia) adapter.getItem(position);
                 if (data.getMediaType().toLowerCase().contains("tv")){
                     Intent intent = new Intent(getContext(), MediaTVDetailsActivity.class);
                     intent.putExtra(Constants.MOVIE_ID_KEY, data.getId());
@@ -310,9 +340,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.trendingTVs().observe(getViewLifecycleOwner(), new Observer<List<Result>>() {
+        homeViewModel.trendingTVs().observe(getViewLifecycleOwner(), new Observer<List<AllMedia>>() {
             @Override
-            public void onChanged(List<Result> movies) {
+            public void onChanged(List<AllMedia> movies) {
                 tvTrendingAdapter.setList(movies);
             }
         });

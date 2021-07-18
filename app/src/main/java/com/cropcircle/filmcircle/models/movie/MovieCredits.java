@@ -1,6 +1,6 @@
 package com.cropcircle.filmcircle.models.movie;
 
-import com.cropcircle.filmcircle.models.people.Cast;
+import com.cropcircle.filmcircle.models.people.Actors;
 import com.cropcircle.filmcircle.models.people.Crew;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +13,7 @@ public class MovieCredits {
     private Integer id;
     @SerializedName("cast")
     @Expose
-    private List<Cast> cast = null;
+    private List<Actors> actors = null;
     @SerializedName("crew")
     @Expose
     private List<Crew> crew = null;
@@ -27,14 +27,14 @@ public class MovieCredits {
 
     /**
      *
-     * @param cast
+     * @param actors
      * @param id
      * @param crew
      */
-    public MovieCredits(Integer id, List<Cast> cast, List<Crew> crew) {
+    public MovieCredits(Integer id, List<Actors> actors, List<Crew> crew) {
         super();
         this.id = id;
-        this.cast = cast;
+        this.actors = actors;
         this.crew = crew;
     }
 
@@ -46,12 +46,12 @@ public class MovieCredits {
         this.id = id;
     }
 
-    public List<Cast> getCast() {
-        return cast;
+    public List<Actors> getCast() {
+        return actors;
     }
 
-    public void setCast(List<Cast> cast) {
-        this.cast = cast;
+    public void setCast(List<Actors> actors) {
+        this.actors = actors;
     }
 
     public List<Crew> getCrew() {
