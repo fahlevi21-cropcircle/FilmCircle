@@ -18,8 +18,11 @@ public class Constants {
     private static Constants instance;
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "?api_key=2c462f471b08742ae8128403a4dc6133";
-    public static final String IMG_PATH_180 = "https://image.tmdb.org/t/p/w185";
-    public static final String IMG_PATH_500 = "https://image.tmdb.org/t/p/w500";
+    public static final String POSTER_PATH_154 = "https://image.tmdb.org/t/p/w154";
+    public static final String POSTER_PATH_185 = "https://image.tmdb.org/t/p/w185";
+    public static final String POSTER_PATH_342 = "https://image.tmdb.org/t/p/w342";
+    public static final String POSTER_PATH_500 = "https://image.tmdb.org/t/p/w500";
+    public static final String BACKDROP_PATH_300 = "https://image.tmdb.org/t/p/w300";
     public static final String BACKDROP_PATH_780 = "https://image.tmdb.org/t/p/w780";
     public static final String BACKDROP_PATH_1280 = "https://image.tmdb.org/t/p/w1280";
     public static final String IMG_PROFILE_180 = "https://image.tmdb.org/t/p/w185";

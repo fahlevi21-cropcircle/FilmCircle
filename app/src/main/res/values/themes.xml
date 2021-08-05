@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="fontFamily">@font/rubik</item>
+        <item name="fontFamily">@font/poppins</item>
     </style>
 
     <style name="Theme.Widget.CustomInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -34,13 +34,16 @@
         <item name="titleTextAppearance">?attr/textAppearanceSubtitle1</item>
         <item name="iconTint">?attr/colorPrimary</item>
         <item name="android:background">?attr/colorOnPrimary</item>
-        <item name="navigationIcon">@drawable/ic_baseline_menu_open</item>
     </style>
 
     <style name="Theme.Text.CardTitleTextAppearance" parent="">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/rubik</item>
+    </style>
+
+    <style name="TextAppearance.FilmCircle.NavigationTitleTextAppearance" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondaryColor</item>
     </style>
 
     <style name="Theme.Text.ToolbarTitleTextAppearance" parent="">
@@ -51,10 +54,45 @@
     <style name="Theme.Text.CardSubtitleTextAppearance" parent="">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontFamily">@font/rubik</item>
     </style>
 
-    <style name="Theme.FilmCircle.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Widget.FilmCircle.SmallRoundedButton" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.FilmCircle.SmallButtonShapeOverlay</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.FilmCircle.SmallComponent</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:minHeight">32dp</item>
+    </style>
 
-    <style name="Theme.FilmCircle.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Widget.FilmCircle.SmallOutlinedRoundedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.FilmCircle.SmallButtonShapeOverlay</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.FilmCircle.SmallComponent</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:minHeight">32dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.FilmCircle.SmallButtonShapeOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Widget.FilmCircle.ShimmerBackground" parent="">
+        <item name="android:background">@color/grayLightColor</item>
+    </style>
+
+    <style name="ShapeAppearance.FilmCircle.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
 </resources>

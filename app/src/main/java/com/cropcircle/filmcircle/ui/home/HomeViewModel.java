@@ -14,17 +14,19 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel {
     private final MutableLiveData<Integer> genreId = new MutableLiveData<>();
+    private final LiveData<List<AllMedia>> trendingMovies;
     private final MovieRepository repository;
     private final MediaTVRepository tvRepository;
 
     public HomeViewModel() {
         //mContext = application.getApplicationContext();
-        repository = new MovieRepository();
         tvRepository = new MediaTVRepository();
+        repository = MovieRepository.getInstance();
+        trendingMovies = repository.trendingMovie();
     }
 
     public LiveData<List<AllMedia>> trendingMovies() {
-        return repository.trendingMovie();
+        return trendingMovies;
     }
 
     public LiveData<List<Movie>> nowPlaying(){

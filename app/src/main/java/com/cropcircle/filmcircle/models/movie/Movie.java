@@ -1,10 +1,7 @@
 package com.cropcircle.filmcircle.models.movie;
 
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
@@ -12,65 +9,10 @@ import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.items.AbstractItem;
 
 import java.util.List;
 
-public class Movie extends AbstractItem<Movie, Movie.ViewHolder> {
-
-    @NonNull
-    @Override
-    public ViewHolder getViewHolder(View v) {
-        return new ViewHolder(v);
-    }
-
-    @Override
-    public int getType() {
-        return R.id.home_rc_new_release;
-    }
-
-    @Override
-    public long getIdentifier() {
-        return id;
-    }
-
-    @Override
-    public boolean isSelectable() {
-        return true;
-    }
-
-    @Override
-    public int getLayoutRes() {
-        return R.layout.item_small_grid;
-    }
-
-    protected class ViewHolder extends FastAdapter.ViewHolder<Movie>{
-        TextView title,rating;
-        ImageView image;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.item_movie_title);
-            rating = itemView.findViewById(R.id.item_movie_avg);
-            image = itemView.findViewById(R.id.item_movie_image);
-        }
-
-        @Override
-        public void bindView(Movie item, List<Object> payloads) {
-            Glide.with(itemView).load(Constants.IMG_PATH_500 + item.backDropPath).into(image);
-            title.setText(item.getTitle());
-            rating.setText(String.valueOf(item.getVoteAverage()));
-        }
-
-        @Override
-        public void unbindView(Movie item) {
-            image.setImageBitmap(null);
-            title.setText(null);
-            rating.setText(null);
-        }
-    }
-
+public class Movie{
 
     @SerializedName("genre_ids")
     @Expose
@@ -227,15 +169,54 @@ public class Movie extends AbstractItem<Movie, Movie.ViewHolder> {
 
     @BindingAdapter("android:loadMediumImage")
     public static void loadMediumImage(ImageView view, String image){
-        Glide.with(view).load(Constants.BACKDROP_PATH_780 + image).placeholder(R.drawable.logo).error(R.drawable.noimg).into(view);
+        Glide.with(view)
+                .asDrawable()
+                .load(Constants.BACKDROP_PATH_780 + image)
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.noimg)
+                .into(view);
     }
+
+    @BindingAdapter("android:mediumPosterImage")
+    public static void mediumPosterImage(ImageView view, String image){
+        Glide.with(view)
+                .asDrawable()
+                .load(Constants.POSTER_PATH_342 + image)
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.noimg)
+                .fitCenter()
+                .into(view);
+    }
+
+    @BindingAdapter("android:smallBackdropImage")
+    public static void smallBackdropImage(ImageView view, String image){
+        Glide.with(view)
+                .asDrawable()
+                .load(Constants.BACKDROP_PATH_300 + image)
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.noimg)
+                .fitCenter()
+                .into(view);
+    }
+
+    @BindingAdapter("android:profileImage")
+    public static void profileImage(ImageView view, String image){
+        Glide.with(view)
+                .asBitmap()
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.ic_baseline_person)
+                .load(Constants.IMG_PROFILE_180 + image)
+                .fitCenter()
+                .into(view);
+    }
+
 
     @BindingAdapter("android:loadSmallGridImage")
     public static void loadSmallGridImage(ImageView view, String image){
         if (image != null && image.toLowerCase().contains("https")){
             Glide.with(view).asBitmap().load(image.substring(1)).placeholder(R.drawable.logo).error(R.drawable.noimg).into(view);
         } else {
-            Glide.with(view).asBitmap().load(Constants.IMG_PATH_500 + image).error(R.drawable.noimg).placeholder(R.drawable.logo).into(view);
+            Glide.with(view).asBitmap().load(Constants.POSTER_PATH_500 + image).error(R.drawable.noimg).placeholder(R.drawable.logo).into(view);
         }
     }
 }

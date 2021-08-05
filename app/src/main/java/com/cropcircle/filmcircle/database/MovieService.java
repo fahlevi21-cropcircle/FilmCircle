@@ -30,6 +30,9 @@ public interface MovieService {
     @GET("discover/movie" + Constants.API_KEY)
     Call<Movies> discoverMovies(@QueryMap Map<String, String> query);
 
+    @GET("search/movie" + Constants.API_KEY)
+    Call<Movies> searchMovies(@QueryMap Map<String, String> query);
+
     @GET("trending/{media_type}/{time_window}" + Constants.API_KEY)
     Call<MediaResponse> trending(@Path("media_type") String mediaType,
                                  @Path("time_window") String time);

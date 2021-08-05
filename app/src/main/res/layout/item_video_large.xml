@@ -12,6 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="300dp"
         android:layout_height="200dp"
+        app:cardCornerRadius="@dimen/shape_radius"
         app:cardElevation="0dp">
 
         <FrameLayout

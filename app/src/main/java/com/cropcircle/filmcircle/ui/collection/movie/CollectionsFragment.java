@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cropcircle.filmcircle.Constants;
+import com.cropcircle.filmcircle.MainActivity;
 import com.cropcircle.filmcircle.PreferenceManager;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.FragmentCollectionsBinding;
@@ -62,7 +63,7 @@ public class CollectionsFragment extends Fragment implements TabLayout.OnTabSele
 
 
         binding.rcCollectionsFavorite.setHasFixedSize(true);
-        binding.rcCollectionsFavorite.addItemDecoration(new GridItemDecoration(12,12,12,12));
+        binding.rcCollectionsFavorite.addItemDecoration(new GridItemDecoration(12,12,12,12, 2));
 
         //default selected tab
         showLoading();

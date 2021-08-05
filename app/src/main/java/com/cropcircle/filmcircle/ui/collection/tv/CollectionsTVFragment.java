@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cropcircle.filmcircle.MainActivity;
 import com.cropcircle.filmcircle.PreferenceManager;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.models.tv.MediaTV;
@@ -59,6 +60,8 @@ public class CollectionsTVFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ((MainActivity) getActivity()).getNavigationView().setCheckedItem(R.id.nav_collections_tv);
         setHasOptionsMenu(true);
         RecyclerView recyclerView = view.findViewById(R.id.rc_collections_tv_favorite);
         Toolbar toolbar = view.findViewById(R.id.collections_tv_toolbar);

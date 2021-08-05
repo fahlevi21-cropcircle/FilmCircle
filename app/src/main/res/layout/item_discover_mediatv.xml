@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.cropcircle.filmcircle.models.tv.MediaTV" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="110dp"
+            app:riv_corner_radius="16dp"
+            android:scaleType="centerCrop"
+            android:loadMediumImage="@{data.backdropPath == null ? data.posterPath : data.backdropPath}"
+            android:src="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_discover_mediatv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{data.name == null ? data.originalName : data.name}"
+                android:textAppearance="@style/Theme.Text.CardTitleTextAppearance"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_discover_mediatv_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/Theme.Text.CardSubtitleTextAppearance" />
+
+            <uz.jamshid.library.ExactRatingBar
+                android:id="@+id/item_discover_mediatv_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:starSize="24"
+                app:starCount="5"
+                app:starFillColor="@color/yellowColor" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -32,23 +32,23 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/movie_details_poster_mini"
-                    android:layout_width="115dp"
-                    android:layout_height="170dp"
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:loadMediumImage="@{data.posterPath == null ? data.backdropPath : data.posterPath}"
+                    android:mediumPosterImage="@{data.posterPath == null ? data.backdropPath : data.posterPath}"
                     android:scaleType="fitXY"
-                    app:riv_corner_radius="4dp" />
+                    app:riv_corner_radius="16dp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_height="194dp"
+                    android:layout_weight="2">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
@@ -66,35 +66,26 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/title_production_company_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorPrimary"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"/>
+
+                        <TextView
+                            android:id="@+id/title_other"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
                             android:id="@+id/movie_details_genre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:layout_marginTop="4dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:orientation="horizontal">
-
-                            <uz.jamshid.library.ExactRatingBar
-                                android:id="@+id/movie_details_rating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:layout_weight="1"
-                                app:starFillColor="@color/yellowColor"
-                                app:starSize="32" />
-
-                            <TextView
-                                android:id="@+id/movie_details_vote_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="2020 Users"
-                                android:textAppearance="?attr/textAppearanceCaption"
-                                android:textStyle="bold" />
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -120,46 +111,36 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/movie_details_watchlist_btn"
-                        style="?attr/borderlessButtonStyle"
+                    <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Watchlist"
-                        app:icon="@drawable/ic_library_add_outlined" />
-
-                    <Button
-                        android:id="@+id/movie_details_rate_btn"
-                        style="?attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        app:iconSize="20dp"
+                        android:textStyle="bold"
+                        app:icon="@drawable/ic_library_add_filled"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="16dp"
-                        android:layout_toRightOf="@id/movie_details_watchlist_btn"
-                        android:text="rate"
-                        app:icon="@drawable/ic_baseline_star" />
+                        style="@style/Widget.FilmCircle.SmallRoundedButton"
+                        android:text="Watchlist"/>
                 </RelativeLayout>
 
             </LinearLayout>
 
             <View
-                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
             <TextView
+                android:id="@+id/movie_details_overview_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="OVERVIEW"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorPrimary"
@@ -172,7 +153,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:textAppearance="?attr/textAppearanceCaption"
                 android:textStyle="italic"
@@ -187,12 +167,12 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:maxLines="6"
-                android:text="@{data.overview}"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical"
                 android:visibility="gone"
                 android:id="@+id/movie_details_advanced_info_container">
@@ -253,6 +233,7 @@
                     android:layout_marginEnd="20dp"/>
 
                 <TextView
+                    android:id="@+id/movie_details_advanced_genre_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -349,12 +330,12 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/movie_details_cast_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:text="CAST"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorPrimary"
@@ -367,17 +348,80 @@
                 android:layout_marginBottom="16dp"
                 android:nestedScrollingEnabled="false" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movie_details_cast_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="See all"/>
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/movie_details_review_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="4dp"
-                android:text="TOP REVIEWS"
+                android:text="RATINGS &amp; REVIEWS"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movie_details_vote_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="4.5"
+                    android:textStyle="bold"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical">
+
+                    <uz.jamshid.library.ExactRatingBar
+                        android:id="@+id/movie_details_vote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:starSize="32"
+                        app:starFillColor="?attr/colorPrimary"
+                        app:starCount="5"/>
+
+                    <TextView
+                        android:id="@+id/movie_details_vote_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        tools:text="89069 Users"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/movie_details_review_rc"
@@ -420,6 +464,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/movie_details_images_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -437,13 +482,30 @@
                 android:nestedScrollingEnabled="false"
                 android:layout_margin="12dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movie_details_images_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="See all"/>
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/movie_details_video_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
+                android:textColor="?attr/colorPrimary"
                 android:text="VIDEOS"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textStyle="bold" />
@@ -456,8 +518,10 @@
                 android:nestedScrollingEnabled="false" />
 
             <TextView
+                android:id="@+id/movie_details_similar_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimary"
                 android:text="YOU MAY LIKE"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -473,8 +537,10 @@
                 android:id="@+id/movie_details_similar_rc"/>
 
             <TextView
+                android:id="@+id/movie_details_recommendation_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimary"
                 android:text="RECOMMENDED FOR YOU"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"

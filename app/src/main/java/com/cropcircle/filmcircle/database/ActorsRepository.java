@@ -76,4 +76,30 @@ public class ActorsRepository {
 
         return mutableLiveData;
     }
+
+    public LiveData<List<Actors>> searchActors(String query, int page){
+        final String TAG = "Actors Search";
+        Call<ActorsResponse> call = service.searchActors(query, page);
+        MutableLiveData<List<Actors>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<ActorsResponse>() {
+            @Override
+            public void onResponse(Call<ActorsResponse> call, Response<ActorsResponse> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActorsResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+
+        return mutableLiveData;
+    }
 }

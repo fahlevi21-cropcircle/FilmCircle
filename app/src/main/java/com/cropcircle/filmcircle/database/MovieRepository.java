@@ -34,11 +34,71 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MovieRepository {
-    private final MovieService service;
+    private static MovieService service;
+    private static MovieRepository instance;
 
-    public MovieRepository() {
+    public static MovieRepository getInstance() {
+        if (instance == null){
+            instance = new MovieRepository();
+        }
         AppNetwork network = AppNetwork.getInstance();
         service = network.createService().create(MovieService.class);
+
+        return instance;
+    }
+
+    public LiveData<List<Movie>> discoverMovies(Map<String, String> queries, int page){
+        final String TAG = "Movie Discover";
+        queries.put("page", String.valueOf(page));
+        Call<Movies> call = service.discoverMovies(queries);
+        MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movies> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+        return mutableLiveData;
+    }
+
+    public LiveData<List<Movie>> searchMovies(String query, int page){
+        final String TAG = "Movie Search";
+        Map<String, String> queries = new HashMap<>();
+        queries.put("query", query);
+        queries.put("page", String.valueOf(page));
+        Call<Movies> call = service.searchMovies(queries);
+        MutableLiveData<List<Movie>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movies> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+        return mutableLiveData;
     }
 
     public LiveData<List<Movie>> discoverNewRelease() {

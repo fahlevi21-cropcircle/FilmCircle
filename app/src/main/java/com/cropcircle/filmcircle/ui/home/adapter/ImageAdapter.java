@@ -45,8 +45,7 @@ public class ImageAdapter extends BaseQuickAdapter<Backdrop, BaseDataBindingHold
             binding.executePendingBindings();
         }else if (viewType == R.layout.item_image_small_grid){
             ItemImageSmallGridBinding binding = (ItemImageSmallGridBinding) baseDataBindingHolder.getDataBinding();
-            Glide.with(binding.itemImage).asBitmap().load(
-                    Constants.BACKDROP_PATH_780 + backdrop.getFilePath()).into(binding.itemImage);
+            binding.setData(backdrop);
             binding.executePendingBindings();
         }
     }

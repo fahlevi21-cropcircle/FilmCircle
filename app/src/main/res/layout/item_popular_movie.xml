@@ -12,9 +12,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:cardElevation="2dp"
-        android:focusable="true">
+        app:cardCornerRadius="@dimen/shape_radius"
+        app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,9 +23,9 @@
             <ImageView
                 android:id="@+id/item_new_release_image"
                 android:layout_width="150dp"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:loadMediumImage="@{data.backDropPath == null ? data.posterPath : data.backDropPath}"
+                android:smallBackdropImage="@{data.backDropPath == null ? data.posterPath : data.backDropPath}"
                 app:srcCompat="@drawable/ic_menu_camera" />
 
             <LinearLayout

@@ -20,12 +20,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:loadMediumImage="@{data.backdropPath}"
+            android:loadMediumImage="@{data.backdropPath == null ? data.posterPath : data.backdropPath}"
             android:src="@drawable/business"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:id="@+id/fade_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/fade_background"/>
+
+        <ImageView
+            android:id="@+id/movie_details_play_trailer_button"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_baseline_play_circle_filled"
+            app:layout_constraintStart_toStartOf="@id/movie_details_image"
+            app:layout_constraintEnd_toEndOf="@id/movie_details_image"
+            app:layout_constraintTop_toTopOf="@id/movie_details_image"
+            app:layout_constraintBottom_toBottomOf="@id/movie_details_image"/>
+
+        <TextView
+            android:id="@+id/movie_details_play_trailer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play Trailer"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/movie_details_play_trailer_button"
+            app:layout_constraintStart_toStartOf="@id/movie_details_image"
+            app:layout_constraintEnd_toEndOf="@id/movie_details_image"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

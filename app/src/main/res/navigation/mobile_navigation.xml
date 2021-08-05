@@ -8,30 +8,30 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.cropcircle.filmcircle.ui.home.HomeFragment"
-        android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_actors"
         android:name="com.cropcircle.filmcircle.ui.actors.ActorsFragment"
-        android:label="Actors"
         tools:layout="@layout/fragment_actors" />
+
+    <fragment
+        android:id="@+id/nav_discovers"
+        android:name="com.cropcircle.filmcircle.ui.discover.MovieDiscoverFragment"
+        tools:layout="@layout/movie_discover_fragment"/>
 
     <fragment
         android:id="@+id/nav_genre"
         android:name="com.cropcircle.filmcircle.ui.genre.GenreContainerFragment"
-        android:label="Genres"
         tools:layout="@layout/fragment_genre_container"/>
 
     <fragment
         android:id="@+id/nav_collections"
         android:name="com.cropcircle.filmcircle.ui.collection.movie.CollectionsFragment"
-        android:label="Collections"
         tools:layout="@layout/fragment_collections" />
 
     <fragment
         android:id="@+id/nav_collections_tv"
         android:name="com.cropcircle.filmcircle.ui.collection.tv.CollectionsTVFragment"
-        android:label="Collections"
         tools:layout="@layout/fragement_collections_tv" />
 </navigation>

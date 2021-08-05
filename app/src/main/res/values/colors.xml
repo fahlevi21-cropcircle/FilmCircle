@@ -8,7 +8,8 @@
     <color name="secondaryDarkColor">#000070</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
-    <color name="grayBackroundColor">#28D4D4D4</color>
+    <color name="grayNightColor">#28D4D4D4</color>
+    <color name="grayLightColor">#90CDCDCD</color>
     <color name="containerBackground">#ECEBEB</color>
     <color name="yellowColor">#FFEB3B</color>
 </resources>

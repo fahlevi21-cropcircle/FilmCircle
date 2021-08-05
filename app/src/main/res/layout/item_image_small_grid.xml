@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.cropcircle.filmcircle.models.movie.Movie" />
+            type="com.cropcircle.filmcircle.models.movie.Backdrop" />
     </data>
 
     <RelativeLayout
@@ -16,7 +16,8 @@
             android:id="@+id/item_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            app:riv_corner_radius="4dp"
-            android:scaleType="centerCrop"/>
+            app:riv_corner_radius="16dp"
+            android:scaleType="centerCrop"
+            android:smallBackdropImage="@{data.filePath}"/>
     </RelativeLayout>
 </layout>

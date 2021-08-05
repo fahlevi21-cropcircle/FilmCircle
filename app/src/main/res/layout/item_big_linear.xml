@@ -23,25 +23,25 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/item_trending_image"
-                android:layout_width="170dp"
-                android:layout_height="250dp"
-                app:riv_corner_radius="4dp"
-                android:loadMediumImage="@{data.posterPath}"
+                android:layout_width="134dp"
+                android:layout_height="194dp"
+                app:riv_corner_radius="@dimen/shape_radius"
                 android:scaleType="fitXY"
+                android:mediumPosterImage="@{data.posterPath}"
                 android:src="@drawable/ic_menu_camera" />
 
             <TextView
                 android:id="@+id/item_trending_title"
                 style="@style/Theme.Text.CardTitleTextAppearance"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{data.title == null ? data.name : data.title}" />
+                android:text="@{data.title == null ? data.name : data.title}"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/item_trending_date"

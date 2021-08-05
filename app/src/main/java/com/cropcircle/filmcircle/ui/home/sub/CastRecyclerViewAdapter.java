@@ -26,17 +26,6 @@ public class CastRecyclerViewAdapter extends BaseQuickAdapter<Actors, BaseDataBi
     protected void convert(@NotNull BaseDataBindingHolder baseDataBindingHolder, Actors actors) {
         if (layoutRes == R.layout.item_caster){
             ItemCasterBinding binding = (ItemCasterBinding) baseDataBindingHolder.getDataBinding();
-
-            if (actors.getProfilePath() != null){
-                Glide.with(binding.itemCastAvatar).asBitmap().load(
-                        Constants.IMG_PROFILE_180 + actors.getProfilePath()
-                ).fitCenter().into(binding.itemCastAvatar);
-            }else {
-                Glide.with(binding.itemCastAvatar).asBitmap().load(
-                        R.drawable.ic_baseline_person
-                ).fitCenter().into(binding.itemCastAvatar);
-            }
-
             binding.setData(actors);
             binding.executePendingBindings();
         }else if (layoutRes == R.layout.item_popular_actors){
@@ -44,13 +33,21 @@ public class CastRecyclerViewAdapter extends BaseQuickAdapter<Actors, BaseDataBi
             binding.setData(actors);
 
             if (actors.getProfilePath() != null){
-                Glide.with(binding.itemPopularActorImage).asDrawable().placeholder(binding.itemPopularActorImage.getDrawable()).load(
-                        Constants.IMG_PROFILE_180 + actors.getProfilePath()
-                ).fitCenter().into(binding.itemPopularActorImage);
+                Glide.with(binding.itemPopularActorImage)
+                        .asDrawable()
+                        .placeholder(binding.itemPopularActorImage.getDrawable())
+                        .error(R.drawable.ic_baseline_person)
+                        .load(Constants.IMG_PROFILE_180 + actors.getProfilePath())
+                        .fitCenter()
+                        .into(binding.itemPopularActorImage);
             }else {
-                Glide.with(binding.itemPopularActorImage).asDrawable().placeholder(binding.itemPopularActorImage.getDrawable()).load(
-                        R.drawable.ic_baseline_person
-                ).fitCenter().into(binding.itemPopularActorImage);
+                Glide.with(binding.itemPopularActorImage)
+                        .asDrawable()
+                        .placeholder(binding.itemPopularActorImage.getDrawable())
+                        .error(R.drawable.ic_baseline_person)
+                        .load(R.drawable.ic_baseline_person)
+                        .fitCenter()
+                        .into(binding.itemPopularActorImage);
             }
             binding.executePendingBindings();
         }else if (layoutRes == R.layout.item_latest_actors){
@@ -58,13 +55,13 @@ public class CastRecyclerViewAdapter extends BaseQuickAdapter<Actors, BaseDataBi
             binding.setData(actors);
 
             if (actors.getProfilePath() != null){
-                Glide.with(binding.itemLatestActorImage).asDrawable().placeholder(R.drawable.logo).load(
-                        Constants.IMG_PROFILE_180 + actors.getProfilePath()
-                ).fitCenter().into(binding.itemLatestActorImage);
-            }else {
-                Glide.with(binding.itemLatestActorImage).asDrawable().placeholder(R.drawable.logo).load(
-                        R.drawable.ic_baseline_person
-                ).fitCenter().into(binding.itemLatestActorImage);
+                Glide.with(binding.itemLatestActorImage)
+                        .asDrawable()
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.ic_baseline_person)
+                        .load(Constants.IMG_PROFILE_180 + actors.getProfilePath())
+                        .fitCenter()
+                        .into(binding.itemLatestActorImage);
             }
             for (int i = 0; i < actors.getKnownFor().size(); i++){
                 if (actors.getKnownFor().get(i).getTitle() != null){

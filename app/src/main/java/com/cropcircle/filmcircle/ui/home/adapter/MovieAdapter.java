@@ -12,6 +12,7 @@ import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
 import com.cropcircle.filmcircle.databinding.ItemBigLinearBinding;
 import com.cropcircle.filmcircle.databinding.ItemCardBannerBinding;
+import com.cropcircle.filmcircle.databinding.ItemDiscoverMovieBinding;
 import com.cropcircle.filmcircle.databinding.ItemFavoriteMovieBinding;
 import com.cropcircle.filmcircle.databinding.ItemGenreGridBinding;
 import com.cropcircle.filmcircle.databinding.ItemImageSmallBinding;
@@ -98,6 +99,10 @@ public class MovieAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder>
             ItemGenreGridBinding binding = (ItemGenreGridBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(movie);
             binding.executePendingBindings();
+        }else if (viewType == R.layout.item_discover_movie){
+            ItemDiscoverMovieBinding binding = (ItemDiscoverMovieBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(movie);
+            binding.itemDiscoverMovieRating.setStar(movie.getVoteAverage().floatValue() - 5.0f);
         }
     }
 }

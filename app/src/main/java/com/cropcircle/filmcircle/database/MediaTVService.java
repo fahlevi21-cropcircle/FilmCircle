@@ -10,12 +10,18 @@ import com.cropcircle.filmcircle.models.tv.MediaTV;
 import com.cropcircle.filmcircle.models.tv.ResultTV;
 import com.google.android.exoplayer2.C;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface MediaTVService {
+
+    @GET("discover/tv" + Constants.API_KEY)
+    Call<ResultTV> discover(@QueryMap Map<String, String> queryMap);
 
     @GET("tv/top_rated" + Constants.API_KEY)
     Call<ResultTV> topRated();

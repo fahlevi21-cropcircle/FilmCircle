@@ -29,6 +29,32 @@ public class MediaTVRepository {
         service = network.createService().create(MediaTVService.class);
     }
 
+    public LiveData<List<MediaTV>> discover(Map<String, String> queries){
+        final String TAG = "TV Discover";
+        Call<ResultTV> call = service.discover(queries);
+        MutableLiveData<List<MediaTV>> mutableLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<ResultTV>() {
+            @Override
+            public void onResponse(Call<ResultTV> call, Response<ResultTV> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                if (response.isSuccessful()){
+                    mutableLiveData.postValue(response.body().getResults());
+                }else {
+                    mutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultTV> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                mutableLiveData.setValue(null);
+            }
+        });
+
+        return mutableLiveData;
+    }
+
     public LiveData<List<MediaTV>> topRated() {
         final String TAG = "topRated TV";
         Call<ResultTV> call = service.topRated();

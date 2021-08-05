@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.cropcircle.filmcircle.Constants;
 import com.cropcircle.filmcircle.R;
+import com.cropcircle.filmcircle.databinding.ItemDiscoverMediatvBinding;
 import com.cropcircle.filmcircle.databinding.ItemFavoriteTvBinding;
 import com.cropcircle.filmcircle.databinding.ItemSmallVerticalTvBinding;
 import com.cropcircle.filmcircle.models.movie.Genre;
@@ -34,6 +35,7 @@ public class MediaTVAdapter extends BaseQuickAdapter<MediaTV, BaseDataBindingHol
         }else if (layoutId == R.layout.item_favorite_tv){
             ItemFavoriteTvBinding binding = (ItemFavoriteTvBinding) baseDataBindingHolder.getDataBinding();
             binding.setData(mediaTV);
+            binding.itemFavoriteTvParentChip.removeAllViews();
             binding.itemFavoriteTvRate.setStar(mediaTV.getVoteAverage().floatValue() - 5.0f);
             float voteAvg = mediaTV.getVoteAverage().floatValue() - 5.0f;
             String mVote = voteAvg + "1";
@@ -56,6 +58,31 @@ public class MediaTVAdapter extends BaseQuickAdapter<MediaTV, BaseDataBindingHol
 
                 binding.itemFavoriteTvParentChip.addView(chip);
             }
+            binding.executePendingBindings();
+        }else if (layoutId == R.layout.item_discover_mediatv){
+            ItemDiscoverMediatvBinding binding = (ItemDiscoverMediatvBinding) baseDataBindingHolder.getDataBinding();
+            binding.setData(mediaTV);
+            binding.itemDiscoverMediatvGenre.setText("");
+
+            List<Genre> genres = Constants.tvGenres;
+            List<Genre> selectedGenres = new ArrayList<>();
+            if (mediaTV.getGenreIds() != null && mediaTV.getGenreIds().size() > 0){
+                for (Genre g : genres){
+                    if (mediaTV.getGenreIds().contains(g.getId())){
+                        selectedGenres.add(g);
+                    }
+                }
+            }
+
+            for (int i = 0; i < selectedGenres.size(); i++){
+                binding.itemDiscoverMediatvGenre.append(selectedGenres.get(i).getName());
+                if (i != selectedGenres.size() - 1){
+                    binding.itemDiscoverMediatvGenre.append(", ");
+                }else {
+                    binding.itemDiscoverMediatvGenre.append(" ");
+                }
+            }
+
             binding.executePendingBindings();
         }
     }

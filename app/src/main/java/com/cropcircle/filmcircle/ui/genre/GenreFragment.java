@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
@@ -31,6 +32,7 @@ import com.cropcircle.filmcircle.ui.home.sub.MovieDetailsActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 
 public class GenreFragment extends Fragment {
 
@@ -40,6 +42,9 @@ public class GenreFragment extends Fragment {
 
     //for paging
     private int page = 1;
+
+    //for showcase
+    private int currentIndex = 0;
 
     private static final String ARG_GENRE_ID = "genreId";
     private static final String ARG_SORT = "sortBy";
@@ -63,6 +68,7 @@ public class GenreFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
 
         if (getArguments() != null) {
+            currentIndex = getRandomIndexFromArray();
             if (mGenreIdParam != getArguments().getInt(ARG_GENRE_ID)){
                 resetPage();
             }
@@ -140,6 +146,8 @@ public class GenreFragment extends Fragment {
                 if (movies != null && movies.size() > 0) {
                     if (isFirstPage()) {
                         adapter.setList(movies);
+                        adapter.removeAt(currentIndex);
+                        initShowCase(movies.get(currentIndex));
                     } else {
                         adapter.addData(movies);
                     }
@@ -148,6 +156,24 @@ public class GenreFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void initShowCase(Movie movie){
+        Glide.with(getContext())
+                .asDrawable()
+                .placeholder(R.drawable.logo)
+                .load(Constants.BACKDROP_PATH_1280 + movie.getBackDropPath())
+                .into(binding.genreShowcaseImage);
+        binding.genreShowcaseTitle.setText(movie.getTitle());
+        binding.genreShowcaseOverview.setText(movie.getOverview());
+    }
+
+    private int getRandomIndexFromArray(){
+        Random random = new Random();
+
+        //every page array size is always 20
+        //put 19 to avoid out of bounds Exception
+        return random.nextInt(19);
     }
 
     private void nextPage() {

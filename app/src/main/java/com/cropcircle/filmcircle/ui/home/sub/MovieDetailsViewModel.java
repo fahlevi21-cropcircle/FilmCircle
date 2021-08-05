@@ -23,6 +23,7 @@ public class MovieDetailsViewModel extends ViewModel {
     private MovieRepository repository;
     private MovieDetailsRepository movieDetailsRepository;
     private MutableLiveData<Integer> movieIdLiveData = new MutableLiveData<>();
+    private MutableLiveData<Integer> emptyCountMutableLiveData = new MutableLiveData<>();
 
     public MovieDetailsViewModel() {
         repository = new MovieRepository();
@@ -74,5 +75,13 @@ public class MovieDetailsViewModel extends ViewModel {
 
     public LiveData<List<Actors>> getCasters(){
         return Transformations.switchMap(movieIdLiveData, id -> movieDetailsRepository.getMovieCasters(id));
+    }
+
+    public LiveData<Integer> getEmptyCount() {
+        return emptyCountMutableLiveData;
+    }
+
+    public void setEmptyCount(int val) {
+        emptyCountMutableLiveData.setValue(val);
     }
 }

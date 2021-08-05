@@ -11,12 +11,14 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     int right;
     int top;
     int bottom;
+    int spanSize;
 
-    public GridItemDecoration(int left, int right, int top, int bottom) {
+    public GridItemDecoration(int left, int right, int top, int bottom, int spanSize) {
         this.left = left;
         this.right = right;
         this.top = top;
         this.bottom = bottom;
+        this.spanSize = spanSize;
     }
 
     @Override
@@ -26,6 +28,14 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
         outRect.top = top;
         outRect.left = left;
         outRect.right = right;
+
+        if (spanSize == 2){
+            if (parent.getChildAdapterPosition(view) == 0){
+                outRect.top = 56;
+            }else if (parent.getChildAdapterPosition(view) == 1){
+                outRect.top = 56;
+            }
+        }
 
         if (parent.getChildAdapterPosition(view) % 2 == 0){
             outRect.left = 48;
